@@ -1,4 +1,4 @@
-package rexam;
+package com.rexam;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
