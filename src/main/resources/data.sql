@@ -1,0 +1,1 @@
+-- Inserts here then set spring.datasource.initialize=true
