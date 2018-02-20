@@ -1,7 +1,12 @@
 package com.rexam.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Exam {
@@ -11,6 +16,9 @@ public class Exam {
 	
 	private String typeExam;
 
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private List<Result> result;
+	
 	public String getCode() {
 		return code;
 	}
@@ -25,5 +33,13 @@ public class Exam {
 
 	public void setTypeExam(String typeExam) {
 		this.typeExam = typeExam;
+	}
+
+	public List<Result> getResult() {
+		return result;
+	}
+
+	public void setResult(List<Result> result) {
+		this.result = result;
 	}
 }

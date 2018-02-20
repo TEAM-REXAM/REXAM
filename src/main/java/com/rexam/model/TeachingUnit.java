@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -15,9 +17,12 @@ public class TeachingUnit {
 	private String name;
 	private int creditValue;
 	private String discipline;
-	
-	@OneToMany(cascade = {CascadeType.ALL})
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private List<Component> components;
+
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private List<Registration> registration;
 
 	public String getName() {
 		return name;
@@ -26,6 +31,7 @@ public class TeachingUnit {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDiscipline() {
 		return discipline;
 	}
@@ -56,5 +62,13 @@ public class TeachingUnit {
 
 	public void setCreditValue(int creditValue) {
 		this.creditValue = creditValue;
+	}
+
+	public List<Registration> getRegistration() {
+		return registration;
+	}
+
+	public void setRegistration(List<Registration> registration) {
+		this.registration = registration;
 	}
 }
