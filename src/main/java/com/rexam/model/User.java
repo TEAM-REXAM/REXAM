@@ -1,8 +1,6 @@
 package com.rexam.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -12,9 +10,6 @@ import javax.persistence.InheritanceType;
 public abstract class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-
 	private String email;
 
 	private String Password;
@@ -53,13 +48,5 @@ public abstract class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 }

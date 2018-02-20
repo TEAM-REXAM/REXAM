@@ -1,33 +1,34 @@
 package com.rexam.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-public class StudentYear {
+public class StudentYear implements Serializable {
 
-	@Id
-	private int year;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 818503377607555498L;
+
+	@EmbeddedId
+	private IdStudentYear id;
+
 	@ManyToOne(cascade = { CascadeType.ALL })
 	private Student student;
-	
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private List<Registration> registration;
 
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	private List<Result> result;
 
 	public Student getStudent() {
 		return student;
@@ -44,8 +45,21 @@ public class StudentYear {
 	public void setRegistration(List<Registration> registration) {
 		this.registration = registration;
 	}
-	
-	
-	
-	
+
+	public List<Result> getResult() {
+		return result;
+	}
+
+	public void setResult(List<Result> result) {
+		this.result = result;
+	}
+
+	public IdStudentYear getId() {
+		return id;
+	}
+
+	public void setId(IdStudentYear id) {
+		this.id = id;
+	}
+
 }

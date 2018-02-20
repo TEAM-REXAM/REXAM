@@ -1,37 +1,34 @@
 package com.rexam.model;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Entity
 public class Result {
 	
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	@EmbeddedId
+	private IdResult id;
 	
 	private String dateObtened;
 	
 	private Double score;
 	
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private List<StudentYear> studentYear;
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@MapsId("idStudentYear")
+	private StudentYear studentYear;
 	
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	private List<Exam> exam;
-	
-	public Integer getId() {
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@MapsId("idExam")
+	private Exam exam;
+
+	public IdResult getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(IdResult id) {
 		this.id = id;
 	}
 
@@ -51,20 +48,21 @@ public class Result {
 		this.score = score;
 	}
 
-	public List<StudentYear> getStudentYear() {
+	public StudentYear getStudentYear() {
 		return studentYear;
 	}
 
-	public void setStudentYear(List<StudentYear> studentYear) {
+	public void setStudentYear(StudentYear studentYear) {
 		this.studentYear = studentYear;
 	}
 
-	public List<Exam> getExam() {
+	public Exam getExam() {
 		return exam;
 	}
 
-	public void setExam(List<Exam> exam) {
+	public void setExam(Exam exam) {
 		this.exam = exam;
 	}
+	
 
 }
