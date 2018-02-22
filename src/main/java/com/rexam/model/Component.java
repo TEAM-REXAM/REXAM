@@ -34,6 +34,14 @@ public class Component {
 	public void setExam(Exam exam) {
 		this.exam = exam;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	
 }

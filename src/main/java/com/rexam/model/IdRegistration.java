@@ -13,7 +13,7 @@ public class IdRegistration implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private IdStudentYear idStudentYear;
-	private Integer codeTeachingUnit;
+	private String codeTeachingUnit;
 
 	public IdStudentYear getIdStudentYear() {
 		return idStudentYear;
@@ -23,11 +23,11 @@ public class IdRegistration implements Serializable {
 		this.idStudentYear = idStudentYear;
 	}
 
-	public Integer getCodeTeachingUnit() {
+	public String getCodeTeachingUnit() {
 		return codeTeachingUnit;
 	}
 
-	public void setCodeTeachingUnit(Integer codeTeachingUnit) {
+	public void setCodeTeachingUnit(String codeTeachingUnit) {
 		this.codeTeachingUnit = codeTeachingUnit;
 	}
 

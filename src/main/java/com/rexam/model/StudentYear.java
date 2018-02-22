@@ -8,6 +8,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -21,13 +22,15 @@ public class StudentYear implements Serializable {
 	@EmbeddedId
 	private IdStudentYear id;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	private Student student;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
+	@MapKey(name = "id")
 	private List<Registration> registration;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@MapKey(name = "id")
 	private List<Result> result;
 
 	public Student getStudent() {

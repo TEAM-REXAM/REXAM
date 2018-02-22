@@ -1,6 +1,5 @@
 package com.rexam.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -16,11 +15,11 @@ public class Result {
 	
 	private Double score;
 	
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@MapsId("idStudentYear")
 	private StudentYear studentYear;
 	
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne
 	@MapsId("idExam")
 	private Exam exam;
 

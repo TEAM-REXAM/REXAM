@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.rexam.model.Admin;
 
-public interface AdminRepository extends CrudRepository<Admin, Long>{
+public interface AdminRepository extends CrudRepository<Admin, String>{
 
 }

@@ -20,7 +20,7 @@ public class TeachingUnit {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private List<Component> components;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Registration> registration;
 
 	public String getName() {
