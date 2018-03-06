@@ -20,7 +20,7 @@ public class Result {
 	private StudentYear studentYear;
 	
 	@ManyToOne
-	@MapsId("idExam")
+	@MapsId("codeExam")
 	private Exam exam;
 
 	public IdResult getId() {

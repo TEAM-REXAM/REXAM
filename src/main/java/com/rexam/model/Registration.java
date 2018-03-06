@@ -12,7 +12,7 @@ public class Registration {
 	@EmbeddedId
 	private IdRegistration id;
 	@ManyToOne
-	@MapsId("idTeachingUnit")
+	@MapsId("codeTeachingUnit")
 	private TeachingUnit teachingUnit;
 
 	@ManyToOne(cascade = { CascadeType.ALL })

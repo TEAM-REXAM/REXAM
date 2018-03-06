@@ -10,29 +10,10 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "email")
-public class Student extends User{
-
-	private String firstname;
-	private String lastname;
+public class Student extends User {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private List<StudentYear> studentYear;
-	
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
 
 	public List<StudentYear> getStudentYear() {
 		return studentYear;
