@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -20,10 +21,8 @@
 					<li class="active"><a href="#">Index</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/showTeachingUnits">Liste des UE</a></li>
-				</ul>
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/addTeachingUnits">ajout des UE</a></li>
+					<li class="active"><a href="/showTeachingUnits">Liste des
+							UE</a></li>
 				</ul>
 			</div>
 		</div>
@@ -32,6 +31,12 @@
 
 		<div class="starter-template">
 			<h1>Rexam</h1>
+			<h2>Liste des UE par discipline :</h2>
+			<ul class="list-group">
+				<c:forEach items="${teachingUnits}" var="tu">
+					<li class="list-group-item"><c:out value="${tu.name}" /></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</div>
 </body>
