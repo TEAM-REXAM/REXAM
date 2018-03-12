@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="fr">
 <head>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <!-- Access the bootstrap Css like this,
 		Spring boot will handle the resource mapping automcatically -->
 <link rel="stylesheet" type="text/css"
@@ -27,11 +27,19 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="/">Index</a></li>
-				</ul>
-				<ul class="nav navbar-nav">
+
+
 					<li class="active"><a href="/showTeachingUnits">Liste des
 							UE</a></li>
 				</ul>
+
+				<form class="navbar-form navbar-right" action="/action_page.php">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search...">
+					</div>
+				</form>
+
+
 			</div>
 		</div>
 	</nav>
@@ -66,12 +74,7 @@
 						</c:if>
 					</c:forEach>
 				</table>
-
-
-
-
 			</c:forEach>
-
 
 		</div>
 	</div>
