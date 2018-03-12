@@ -48,33 +48,24 @@
 		<div class="starter-template">
 			<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline :</h2>
-			<c:forEach items="${disciplines}" var="discipline">
-
-				<h3>
-					<c:out value="${discipline}" />
-				</h3>
-
+			<h2><c:out value="${teachingUnit.name} :" /></h2>
+		
+			
 				<table class="table table-hover">
 					<tr>
-						<th>Nom</th>
-						<th>Nb crédit</th>
-						<th>Épreuves</th>
-						<th>Actions</th>
+						<th>Épreuve</th>
+						<th>Type épreuve</th>
+						<th>Poids</th>
 					</tr>
-					<c:forEach items="${teachingUnits}" var="tu">
-						<c:if test="${discipline==tu.discipline }">
+						<c:forEach items="${teachingUnit.components }" var="component">
 							<tr>
-								<td><c:out value="${tu.name}" /></td>
-								<td><c:out value="${tu.creditValue}" /></td>
-								<td><a href="/showExams?code=${tu.code }">Détail des épreuves</a></td>
-								<td><button>S'inscrire</button></td>
+								<td><c:out value="${component.exam.code}" /></td>
+								<td><c:out value="${component.exam.typeExam}" /></td>
+								<td><c:out value="${component.weight}" /></td>
 							</tr>
 
-						</c:if>
-					</c:forEach>
+						</c:forEach>
 				</table>
-			</c:forEach>
 
 		</div>
 	</div>

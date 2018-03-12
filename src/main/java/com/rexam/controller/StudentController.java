@@ -1,14 +1,20 @@
 package com.rexam.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rexam.dao.ComponentRepository;
+import com.rexam.dao.ExamRepository;
 import com.rexam.dao.TeachingUnitRepository;
+import com.rexam.model.Component;
+import com.rexam.model.Exam;
 import com.rexam.model.TeachingUnit;
 
 @Controller
@@ -27,6 +33,16 @@ public class StudentController {
 		mav.addObject("teachingUnits", teachingUnits);
 		return mav;
 	}
+	
+	@RequestMapping("/showExams")
+	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU) {
+		
+		TeachingUnit tu = tuRepository.findOne(codeTU);
+		
+		ModelAndView mav = new ModelAndView("exams");
+		mav.addObject("teachingUnit", tu);
+		return mav;
+	}
 
 	@RequestMapping("/addTeachingUnits")
 	public String addTeachingUnits() {
@@ -35,6 +51,16 @@ public class StudentController {
 		u.setName("Programmation Haskell");
 		u.setDiscipline("Informatique");
 		u.setCreditValue(3);
+		Component c = new Component();
+		c.setId(1);
+		c.setWeight(2);
+		Exam e = new Exam();
+		e.setCode("Epr1Haskell");
+		e.setTypeExam("partiel");
+		c.setExam(e);
+		List<Component> comps = new ArrayList<Component>();
+		comps.add(c);
+		u.setComponents(comps);
 		tuRepository.save(u);
 		TeachingUnit u2 = new TeachingUnit();
 		u2.setCode("UE2");
