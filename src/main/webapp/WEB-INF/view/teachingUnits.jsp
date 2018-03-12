@@ -41,18 +41,16 @@
 
 				<c:forEach items="${disciplines}" var="discipline">
 
-					<li class="list-group-item">
-						<button>
-							<c:out value="${discipline}" />
-						</button>
-					</li>
+					<li class="list-group-item"><c:out value="${discipline}" />
 
-					<ul class="tu_list">
-						<c:forEach items="${disciplines}" var="tu">
 
-						</c:forEach>
-					</ul>
-
+						<ul class="tu_list">
+							<c:forEach items="${teachingUnits}" var="tu">
+								<c:if test="${discipline==tu.discipline }">
+									<li><c:out value="${tu.name}" /></li>
+								</c:if>
+							</c:forEach>
+						</ul></li>
 
 				</c:forEach>
 

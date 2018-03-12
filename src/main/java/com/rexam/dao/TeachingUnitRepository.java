@@ -11,4 +11,6 @@ public interface TeachingUnitRepository extends CrudRepository<TeachingUnit, Str
 
 	@Query(value = "select distinct discipline from TeachingUnit")
 	public List<String> findDisciplines();
+	
+	public List<TeachingUnit> findAllByOrderByDisciplineAsc(); 
 }
