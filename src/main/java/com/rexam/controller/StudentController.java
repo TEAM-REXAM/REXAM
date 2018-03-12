@@ -20,8 +20,11 @@ public class StudentController {
 	@RequestMapping("/showTeachingUnits")
 	public ModelAndView showDisciplines() {
 		List<String> disciplines = tuRepository.findDisciplines();
+		List<TeachingUnit> teachingUnits = tuRepository.findAllByOrderByDisciplineAsc();
+
 		ModelAndView mav = new ModelAndView("teachingUnits");
 		mav.addObject("disciplines", disciplines);
+		mav.addObject("teachingUnits", teachingUnits);
 		return mav;
 	}
 
@@ -29,8 +32,8 @@ public class StudentController {
 	public String addTeachingUnits() {
 		TeachingUnit u = new TeachingUnit();
 		u.setCode("UE1");
-		u.setName("nomUE");
-		u.setDiscipline("Sciences");
+		u.setName("Programmation Haskell");
+		u.setDiscipline("Informatique");
 		u.setCreditValue(3);
 		tuRepository.save(u);
 		TeachingUnit u2 = new TeachingUnit();
@@ -39,6 +42,12 @@ public class StudentController {
 		u2.setDiscipline("Lettres");
 		u2.setCreditValue(2);
 		tuRepository.save(u2);
+		TeachingUnit u3 = new TeachingUnit();
+		u3.setCode("UE3");
+		u3.setName("Dictée");
+		u3.setDiscipline("Lettres");
+		u3.setCreditValue(3);
+		tuRepository.save(u3);
 		return "index";
 	}
 
