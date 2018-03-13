@@ -9,12 +9,9 @@
 		Spring boot will handle the resource mapping automcatically -->
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-<script>
-	$("h2").click(function() {
-		$("#tu_list").slideToggle();
-	});
-</script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -49,34 +46,46 @@
 			<h1>Rexam</h1>
 
 			<h2>Liste des UE par discipline :</h2>
-			<c:forEach items="${disciplines}" var="discipline">
 
-				<h3>
-					<c:out value="${discipline}" />
-				</h3>
+			<c:forEach items="${disciplines}" var="discipline" varStatus="i">
+				<div id="${i.index}" class="discipline">
+					<h3>
+						<c:out value="${discipline}" />
+					</h3>
 
-				<table class="table table-hover">
-					<tr>
-						<th>Nom</th>
-						<th>Nb crédit</th>
-						<th>Épreuves</th>
-						<th>Actions</th>
-					</tr>
-					<c:forEach items="${teachingUnits}" var="tu">
-						<c:if test="${discipline==tu.discipline }">
-							<tr>
-								<td><c:out value="${tu.name}" /></td>
-								<td><c:out value="${tu.creditValue}" /></td>
-								<td><a href="/showExams?code=${tu.code }">Détail des épreuves</a></td>
-								<td><button>S'inscrire</button></td>
-							</tr>
+					<table id="tu${i.index}" class="unitsTable table table-hover">
+						<tr>
+							<th>Nom</th>
+							<th>Nb crédit</th>
+							<th>Épreuves</th>
+							<th>Actions</th>
+						</tr>
+						<c:forEach items="${teachingUnits}" var="tu">
+							<c:if test="${discipline==tu.discipline }">
+								<tr>
+									<td><c:out value="${tu.name}" /></td>
+									<td><c:out value="${tu.creditValue}" /></td>
+									<td><a href="/showExams?code=${tu.code }">Détail des
+											épreuves</a></td>
+									<td><button>S'inscrire</button></td>
+								</tr>
 
-						</c:if>
-					</c:forEach>
-				</table>
+							</c:if>
+						</c:forEach>
+					</table>
+				</div>
+
 			</c:forEach>
-
 		</div>
 	</div>
+
+	<script>
+	$(document).ready(function() {
+		$(".discipline").click(function() {
+			row_id = $(this).attr('id');
+			$("#tu" + row_id).slideToggle();
+		});
+	});
+</script>
 </body>
 </html>
