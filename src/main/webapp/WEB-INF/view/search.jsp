@@ -30,6 +30,7 @@
 							UE</a></li>
 				</ul>
 
+				
 				<form class="navbar-form navbar-right" action="/search" method="get">
 					<div class="input-group">
 						<input name="searchTerm" type="text" class="form-control" placeholder="Rechercher...">
@@ -50,49 +51,20 @@
 		<div class="starter-template">
 			<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline :</h2>
+			<h2>Résultats de la recherche pour ${searchTerm } :</h2>
 
-			<c:forEach items="${disciplines}" var="discipline" varStatus="i">
-				<div id="${i.index}" class="discipline">
+			<c:forEach items="${searchResults}" var="result">
+			
 					<h3>
-						<c:out value="${discipline}" />
+						<c:out value="${result.name}" />
 					</h3>
 
-					<table id="tu${i.index}" class="unitsTable table table-hover">
-					<thead>
-						<tr>
-							<th>Nom</th>
-							<th>Nb crédit</th>
-							<th>Épreuves</th>
-							<th>Actions</th>
-						</tr>
-						</thead>
-						<c:forEach items="${teachingUnits}" var="tu">
-							<c:if test="${discipline==tu.discipline }">
-								<tr>
-									<td><c:out value="${tu.name}" /></td>
-									<td><c:out value="${tu.creditValue}" /></td>
-									<td><a href="/showExams?code=${tu.code }">Détail des
-											épreuves</a></td>
-									<td><button>S'inscrire</button></td>
-								</tr>
-
-							</c:if>
-						</c:forEach>
-					</table>
-				</div>
-
+					
+				
 			</c:forEach>
 		</div>
 	</div>
 
-	<script>
-	$(document).ready(function() {
-		$(".discipline").click(function() {
-			row_id = $(this).attr('id');
-			$("#tu" + row_id).slideToggle();
-		});
-	});
-</script>
+	
 </body>
 </html>
