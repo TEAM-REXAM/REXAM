@@ -19,6 +19,10 @@
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="#">Index</a></li>
 				</ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/showTeachingUnits">Liste des UE</a></li>
+				</ul>
+				
 			</div>
 		</div>
 	</nav>
@@ -28,10 +32,5 @@
 			<h1>Rexam</h1>
 		</div>
 	</div>
-	<div class="container">
-
-	Admin Home
-
-</div>
 </body>
 </html>
