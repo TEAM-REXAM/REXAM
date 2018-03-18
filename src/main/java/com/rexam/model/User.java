@@ -11,8 +11,8 @@ public abstract class User {
 
 	@Id
 	private String email;
-
-	private String Password;
+	//changed Password to password
+	private String password;
 
 	private Boolean connected;
 
@@ -37,11 +37,11 @@ public abstract class User {
 	}
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		password = password;
 	}
 
 	public Boolean getConnected() {
