@@ -21,7 +21,7 @@ public class TeachingUnit {
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Component> components;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Registration> registration;
 
 	public String getName() {

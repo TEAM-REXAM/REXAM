@@ -16,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.rexam.dao.RegistrationRepository;
-import com.rexam.dao.StudentRepository;
 import com.rexam.dao.TeachingUnitRepository;
+import com.rexam.dao.UserRepository;
 import com.rexam.model.Component;
 import com.rexam.model.Exam;
 import com.rexam.model.IdRegistration;
@@ -26,27 +26,31 @@ import com.rexam.model.Registration;
 import com.rexam.model.Student;
 import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
+import com.rexam.model.User;
+import com.rexam.service.RegistrationService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional
-public class Testd {
+public class RegistrationTest {
 
 	 @Autowired
 	    private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
-	private StudentRepository studentRepository;
+	private UserRepository userRepository;
 	@Autowired
 	private RegistrationRepository registrationRepository;
 	@Autowired
 	private TeachingUnitRepository teachingUnitRepository;
-
+	
+	private RegistrationService registrationService;
 	TeachingUnit teachingUnit = new TeachingUnit();
-	Student student = new Student();
-
+	User student = new Student();
 	@Before
 	public void setUp() {
 
+		
+		
 		student.setConnected(true);
 		student.setEmail("mail");
 		student.setPassword("pass");
@@ -63,14 +67,14 @@ public class Testd {
 		List<Component> list = new ArrayList<Component>();
 		list.add(c);
 		teachingUnit.setComponents(list);
-
+		teachingUnitRepository.save(teachingUnit);
+		userRepository.save(student);
 	}
 
 	@Test
 	public void saveTest() {
 
-		studentRepository.save(student);
-		assertNotNull(studentRepository.findOne("mail"));
+		assertNotNull(userRepository.findOne("mail"));
 	}
 
 	@Test
@@ -80,16 +84,15 @@ public class Testd {
 
 	@Test
 	public void saveStudentYear() {
-		teachingUnitRepository.save(teachingUnit);
+		
 		assertNotNull(teachingUnitRepository.findOne("toto"));
 		IdStudentYear idStudentYear = new IdStudentYear();
 		idStudentYear.setYear(2003);
 		idStudentYear.setId(1);
 		StudentYear studentYear = new StudentYear();
-		studentYear.setStudent(studentRepository.findOne("mail"));
+		studentYear.setStudent((Student) userRepository.findOne("mail"));
 		studentYear.setId(idStudentYear);
 		List<Registration> list = new ArrayList<Registration>();
-
 		IdRegistration idRegistration = new IdRegistration();
 		idRegistration.setIdStudentYear(studentYear.getId());
 		idRegistration.setCodeTeachingUnit(teachingUnitRepository.findOne("toto").getCode());
@@ -104,5 +107,4 @@ public class Testd {
 
 		assertNotNull(registrationRepository.findAll());
 	}
-
 }
