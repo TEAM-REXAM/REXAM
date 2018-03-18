@@ -22,7 +22,7 @@
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="/showTeachingUnits">Liste des UE</a></li>
 				</ul>
-			
+
 			</div>
 		</div>
 	</nav>
