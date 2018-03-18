@@ -25,11 +25,11 @@ public class StudentYear implements Serializable {
 	@ManyToOne
 	private Student student;
 
-	@OneToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@MapKey(name = "id")
 	private List<Registration> registration;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@MapKey(name = "id")
 	private List<Result> result;
 

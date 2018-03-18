@@ -10,8 +10,6 @@ import com.rexam.model.Admin;
 import com.rexam.model.User;
 import com.rexam.model.Student;
 
-import java.util.HashSet;
-
 @Service
 public class UserServiceImpl implements UserService {
 

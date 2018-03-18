@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "mail")
+@PrimaryKeyJoinColumn(name = "email")
 public class Admin extends User {
 
 }

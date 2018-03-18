@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rexam.dao.ComponentRepository;
-import com.rexam.dao.ExamRepository;
 import com.rexam.dao.TeachingUnitRepository;
 import com.rexam.model.Component;
 import com.rexam.model.Exam;

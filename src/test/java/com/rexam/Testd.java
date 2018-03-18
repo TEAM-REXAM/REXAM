@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.rexam.dao.RegistrationRepository;
@@ -31,6 +32,8 @@ import com.rexam.model.TeachingUnit;
 @Transactional
 public class Testd {
 
+	 @Autowired
+	    private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
@@ -72,7 +75,7 @@ public class Testd {
 
 	@Test
 	public void saveTU() {
-
+		System.out.println(bCryptPasswordEncoder.encode("toto"));
 	}
 
 	@Test

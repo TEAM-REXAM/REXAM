@@ -16,7 +16,7 @@ public class Exam {
 	
 	private String typeExam;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Result> result;
 	
 	public String getCode() {

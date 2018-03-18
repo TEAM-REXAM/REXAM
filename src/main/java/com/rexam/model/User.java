@@ -41,7 +41,7 @@ public abstract class User {
 	}
 
 	public void setPassword(String password) {
-		password = password;
+		this.password = password;
 	}
 
 	public Boolean getConnected() {

@@ -18,7 +18,7 @@ public class TeachingUnit {
 	private int creditValue;
 	private String discipline;
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Component> components;
 
 	@OneToMany(fetch = FetchType.EAGER)
