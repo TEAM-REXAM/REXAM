@@ -17,10 +17,10 @@ public class TeachingUnit {
 	private int creditValue;
 	private String discipline;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Component> components;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Registration> registration;
 
 	public String getName() {
