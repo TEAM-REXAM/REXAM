@@ -22,4 +22,5 @@ public interface TeachingUnitRepository extends CrudRepository<TeachingUnit, Str
 	 * se traduit en sql par LIKE %searchTerm%
 	 */
 	public List<TeachingUnit> findByNameIgnoreCaseContaining(String searchTerm);
+	
 }

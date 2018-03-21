@@ -42,4 +42,13 @@ public class Exam {
 	public void setResult(List<Result> result) {
 		this.result = result;
 	}
+	
+	public Result getResultByStudentYear(StudentYear student) {
+		for(Result res : result) {
+			if (res.getStudentYear().equals(student)) {
+				return res;
+			}
+		}
+		return null;
+	}
 }

@@ -6,13 +6,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rexam.dao.RegistrationRepository;
+import com.rexam.dao.ResultRepository;
+import com.rexam.dao.StudentYearRepository;
 import com.rexam.dao.TeachingUnitRepository;
 import com.rexam.model.Component;
 import com.rexam.model.Exam;
+import com.rexam.model.IdResult;
+import com.rexam.model.IdStudentYear;
+import com.rexam.model.Registration;
+import com.rexam.model.Result;
+import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
 
 @Controller
@@ -20,6 +29,12 @@ public class StudentController {
 
 	@Autowired
 	TeachingUnitRepository tuRepository;
+	@Autowired
+	StudentYearRepository studYearRepository;
+	@Autowired
+	ResultRepository resultRepository;
+	@Autowired
+	RegistrationRepository regRepository;
 
 	@RequestMapping("/showTeachingUnits")
 	public ModelAndView showDisciplines() {
@@ -31,12 +46,12 @@ public class StudentController {
 		mav.addObject("teachingUnits", teachingUnits);
 		return mav;
 	}
-	
+
 	@RequestMapping("/showExams")
 	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU) {
-		
+
 		TeachingUnit tu = tuRepository.findOne(codeTU);
-		
+
 		ModelAndView mav = new ModelAndView("exams");
 		mav.addObject("teachingUnit", tu);
 		return mav;
@@ -75,9 +90,52 @@ public class StudentController {
 		return "index";
 	}
 
+	@RequestMapping("/regs")
+	public ModelAndView listRegistrations() {
+		List<Registration> regs = regRepository.findAllByOrderByIdAsc();
+
+		if (regs == null) {
+			regs = new ArrayList<Registration>();
+		}
+
+		ModelAndView mav = new ModelAndView("regslist");
+		mav.addObject("regs", regs);
+
+		return mav;
+	}
+
+	@RequestMapping("/results")
+	public ModelAndView listResults() {
+		List<Registration> regs = regRepository.findAllByOrderByIdAsc();
+
+		if (regs == null) {
+			regs = new ArrayList<Registration>();
+		}
+
+		ModelAndView mav = new ModelAndView("reslist");
+		mav.addObject("results", regs);
+
+		return mav;
+	}
+
+	@RequestMapping("/results/{codeTU}")
+	public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
+		TeachingUnit tu = tuRepository.findOne(codeTU);
+		
+		StudentYear studYear = new StudentYear();
+
+
+		ModelAndView mav = new ModelAndView("detailRes");
+		mav.addObject("tu", tu);
+		mav.addObject("stud", studYear);
+		
+		return mav;
+	}
 
 	@ModelAttribute("teachingUnits")
 	Iterable<TeachingUnit> teachingUnits() {
 		return tuRepository.findAll();
 	}
+
+
 }
