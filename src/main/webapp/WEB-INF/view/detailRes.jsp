@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,7 +10,7 @@
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body>
@@ -26,7 +25,7 @@
 					<li><a href="/">Index</a></li>
 
 
-					<li class="active"><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
+					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
 
 					<li><a href="/rexam/regs">Liste des
 							inscriptions</a></li>
@@ -59,53 +58,58 @@
 			</div>
 		</div>
 	</nav>
-	
 	<div class="container">
 
 		<div class="starter-template">
 			<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline :</h2>
-			<div id="accordion">
-				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
-					<h3>
-						<c:out value="${discipline}" />
-					</h3>
-					<div>
-						<table id="tu${i.index}" class="unitsTable table table-hover">
-							<thead>
-								<tr>
-									<th>Nom</th>
-									<th>Nb crédit</th>
-									<th>Épreuves</th>
-									<th>Actions</th>
-								</tr>
-							</thead>
-							<c:forEach items="${teachingUnits}" var="tu">
-								<c:if test="${discipline==tu.discipline }">
-									<tr>
-										<td><c:out value="${tu.name}" /></td>
-										<td><c:out value="${tu.creditValue}" /></td>
-										<td><a href="/showExams?code=${tu.code }">Détail des
-												épreuves</a></td>
-										<td><button>S'inscrire</button></td>
-									</tr>
+			<h2>
+				<c:out value="Détail des notes -- ${tu.name}" />
+			</h2>
 
-								</c:if>
-							</c:forEach>
-						</table>
-					</div>
-				</c:forEach>
+			<div class="avg_details">
+
+				<c:if test="${empty reg.averageScore}">
+					<c:out value="Moyenne : Pas encore déterminée" />
+				</c:if>
+
+				<c:if test="${not empty reg.averageScore}">
+					<c:out value="Moyenne : ${reg.averageScore}" />
+				</c:if>
+
+				<c:out value="Status :${reg.status}" />
+
 			</div>
+
+			<div class="exam_details">
+
+				<table id="exam_table" class="unitsTable table table-hover">
+					<thead>
+						<tr>
+							<th>Epreuves</th>
+							<th>Notes</th>
+							<th>Poids</th>
+							<th>Date d'obtention</th>
+						</tr>
+					</thead>
+
+					<c:forEach items="${tu.components}" var="compo">
+
+						<tr>
+							<td><c:out value="${compo.exam.typeExam}" /></td>
+							<td><c:out
+									value="${compo.exam.getResultByStudentYear(studyear).score}" /></td>
+							<td><c:out value="${compo.weight}" /></td>
+							<td><c:out
+									value="${compo.exam.getResultByStudentYear(studyear).dateObtened}" /></td>
+						</tr>
+
+					</c:forEach>
+
+				</table>
+			</div>
+
 		</div>
 	</div>
-	<script>
-		$(function() {
-			$("#accordion").accordion({
-				collapsible : true,
-				active : false
-			});
-		});
-	</script>
 </body>
 </html>
