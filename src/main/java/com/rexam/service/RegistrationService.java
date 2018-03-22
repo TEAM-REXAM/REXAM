@@ -73,6 +73,7 @@ public class RegistrationService {
 		reg.setId(idr);
 		reg.setStudentYear(sYear);
 		reg.setTeachingUnit(teachingUnit);
+		reg.setStatus("Pas de Notes");
 		registrationRepository.save(reg);
 		List<Component> compos = teachingUnit.getComponents();
 		for (Component component : compos) {
