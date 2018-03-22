@@ -1,6 +1,6 @@
 insert into USER (email, password, connected, firstname, lastname, role) values ('arthur@noob.com', '$2a$10$weBPBEyngyJSiHQqjRlCO.ZATFl1AFxCsDdJBsL6ouSAV9dy0OUBS', false, 'arthur', 'Cavaillé', 'admin');
 insert into admin (email) values ('arthur@noob.com');
-
+insert into current_year (year) values('2019');
 insert into USER (email, password, connected, firstname, lastname, role) values ('srowlands0@vimeo.com', '$2a$10$weBPBEyngyJSiHQqjRlCO.ZATFl1AFxCsDdJBsL6ouSAV9dy0OUBS', false, 'Maëlla', 'Bendix', 'student');
 insert into USER (email, password, connected, firstname, lastname, role) values ('jhalligan1@dailymail.co.uk', '$2a$10$weBPBEyngyJSiHQqjRlCO.ZATFl1AFxCsDdJBsL6ouSAV9dy0OUBS', false, 'Desirée', 'Danko', 'student');
 insert into USER (email, password, connected, firstname, lastname, role) values ('doliver2@google.nl', '$2a$10$weBPBEyngyJSiHQqjRlCO.ZATFl1AFxCsDdJBsL6ouSAV9dy0OUBS', false, 'Maïlis', 'Konertz', 'student');

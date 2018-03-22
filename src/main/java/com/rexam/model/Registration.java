@@ -11,7 +11,7 @@ public class Registration {
 
 	@EmbeddedId
 	private IdRegistration id;
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	@MapsId("codeTeachingUnit")
 	private TeachingUnit teachingUnit;
 

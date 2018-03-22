@@ -3,6 +3,8 @@ package com.rexam.model;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Embeddable
 public class IdStudentYear implements Serializable {
@@ -13,6 +15,7 @@ public class IdStudentYear implements Serializable {
 	private static final long serialVersionUID = -2538447516915936035L;
 
 	private int year;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 
 	public int getYear() {

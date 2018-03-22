@@ -8,8 +8,10 @@ import com.rexam.model.IdRegistration;
 import com.rexam.model.Registration;
 import com.rexam.model.StudentYear;
 
-public interface RegistrationRepository extends CrudRepository<Registration, IdRegistration>{
+public interface RegistrationRepository extends CrudRepository<Registration, IdRegistration> {
 
-	public List<Registration> findByStudentYear (StudentYear studentYear);
+	public List<Registration> findByStudentYear(StudentYear studentYear);
+
+	public List<Registration> findByIdCodeTeachingUnit(String codeTeachingUnit);
 	
 }
