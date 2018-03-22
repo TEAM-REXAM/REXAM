@@ -10,8 +10,6 @@ import com.rexam.model.StudentYear;
 
 public interface RegistrationRepository extends CrudRepository<Registration, IdRegistration>{
 
-	public List<Registration> findAllByOrderByIdAsc();
-	
 	public List<Registration> findByStudentYear (StudentYear studentYear);
 	
 }
