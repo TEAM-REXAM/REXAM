@@ -20,7 +20,7 @@
 
 <body>
 
-		<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="/">Rexam</a>
@@ -32,8 +32,7 @@
 
 					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
 
-					<li><a href="/rexam/regs">Liste des
-							inscriptions</a></li>
+					<li><a href="/rexam/regs">Liste des inscriptions</a></li>
 
 					<li><a href="/rexam/results">Liste des résultats</a></li>
 
@@ -47,7 +46,7 @@
 					<c:out
 						value="Connecté en tant que ${student.firstName} ${student.lastName}" />
 				</p>
-				
+
 				<form class="navbar-form navbar-right" action="/search" method="get">
 					<div class="input-group">
 						<input name="searchTerm" type="text" class="form-control"
@@ -59,6 +58,11 @@
 						</div>
 					</div>
 				</form>
+				<form class="navbar-form" id="logoutForm" method="POST" action="${contextPath}/logout">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+				</form>
+				<a class="navbar-right" onclick="document.forms['logoutForm'].submit()">Logout</a>
 
 			</div>
 		</div>
@@ -89,8 +93,8 @@
 									<tr>
 										<td><c:out value="${tu.name}" /></td>
 										<td><c:out value="${tu.creditValue}" /></td>
-										<td><a href="/rexam/showExams?code=${tu.code }">Détail des
-												épreuves</a></td>
+										<td><a href="/rexam/showExams?code=${tu.code }">Détail
+												des épreuves</a></td>
 										<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
 									</tr>
 

@@ -23,16 +23,6 @@ public class UserServiceImpl implements UserService {
     //
 
     @Override
-    public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-       
-        if (user instanceof Admin)
-        	adminRepository.save((Admin)user);
-        else
-        	studentRepository.save((Student)user);
-    }
-
-    @Override
     public User findByEmail(String email) {
         User admin = adminRepository.findByEmail(email);
         if (admin != null)
@@ -41,4 +31,10 @@ public class UserServiceImpl implements UserService {
         User student = studentRepository.findByEmail(email);
         return student;
     }
+
+	@Override
+	public void save(User user) {
+		// TODO Auto-generated method stub
+		
+	}
 }

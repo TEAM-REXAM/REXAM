@@ -55,7 +55,9 @@ public class RegistrationTest {
 	@Test
 	public void registrationWorkingTest() throws Exception {
 		registrationService.registration("srowlands0@vimeo.com", "ENSCHCU50");
-		assertNotNull(registrationRepository.findByIdCodeTeachingUnit("ENSCHCU50"));
+		registrationService.registration("jhalligan1@dailymail.co.uk", "ENSCHCU50");
+		registrationService.registration("jhalligan1@dailymail.co.uk", "ENSBBBU5");
+		assertNotNull(registrationRepository.findAll());
 	}
 
 	@Test(expected = Exception.class)
