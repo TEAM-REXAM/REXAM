@@ -10294,5 +10294,3 @@ insert into teaching_unit_components (teaching_unit_code, components_id) values 
 insert into teaching_unit_components (teaching_unit_code, components_id) values ('ENSPHCUD7', 976);
 insert into teaching_unit_components (teaching_unit_code, components_id) values ('ENSPHCU1J', 983);
 insert into teaching_unit_components (teaching_unit_code, components_id) values ('ENSPHDU36', 995);
-
-insert into current_year (year) values('2019');
