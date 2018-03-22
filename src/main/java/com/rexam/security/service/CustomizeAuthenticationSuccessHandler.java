@@ -35,6 +35,6 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
             	return;
             }
         }
-        response.sendRedirect("/showTeachingUnits");
+        response.sendRedirect("/rexam/showTeachingUnits");
 	}
 }

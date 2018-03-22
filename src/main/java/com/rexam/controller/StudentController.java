@@ -28,6 +28,7 @@ import com.rexam.model.TeachingUnit;
 import com.rexam.service.AuthentificationFacade;
 
 @Controller
+@RequestMapping("/rexam")
 public class StudentController {
 
 	@Autowired

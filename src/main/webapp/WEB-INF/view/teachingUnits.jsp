@@ -7,8 +7,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <!-- Access the bootstrap Css like this,
 		Spring boot will handle the resource mapping automcatically -->
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -16,7 +20,7 @@
 
 <body>
 
-	<nav class="navbar navbar-inverse">
+		<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="/">Rexam</a>
@@ -26,7 +30,7 @@
 					<li><a href="/">Index</a></li>
 
 
-					<li class="active"><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
+					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
 
 					<li><a href="/rexam/regs">Liste des
 							inscriptions</a></li>
@@ -59,7 +63,6 @@
 			</div>
 		</div>
 	</nav>
-	
 	<div class="container">
 
 		<div class="starter-template">
@@ -86,9 +89,9 @@
 									<tr>
 										<td><c:out value="${tu.name}" /></td>
 										<td><c:out value="${tu.creditValue}" /></td>
-										<td><a href="/showExams?code=${tu.code }">Détail des
+										<td><a href="/rexam/showExams?code=${tu.code }">Détail des
 												épreuves</a></td>
-										<td><button>S'inscrire</button></td>
+										<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
 									</tr>
 
 								</c:if>
