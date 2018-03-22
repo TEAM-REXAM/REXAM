@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html lang="fr">
 <head>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -32,6 +33,14 @@
 
 					<li class="active"><a href="/results">Liste des résultats</a></li>
 				</ul>
+				
+				<ul>
+					<c:out value="Année ${currentYear}-${currentYear+1}"/>
+				</ul>
+				
+				<ul>
+					<c:out value="Connecté en tant que ${student.firstName} ${student.lastName}"/>
+				</ul>
 
 				<form class="navbar-form navbar-right" action="/search" method="get">
 					<div class="input-group">
@@ -61,7 +70,6 @@
 				<thead>
 					<tr>
 						<th>Année</th>
-						<th>Id de l'étudiant</th>
 						<th>Nom de l'UE</th>
 						<th>Crédits</th>
 					</tr>
@@ -69,7 +77,6 @@
 				<c:forEach items="${regs}" var="reg">
 					<tr>
 						<td><c:out value="${reg.studentYear.id.year}" /></td>
-						<td><c:out value="${reg.studentYear.id.id}" /></td>
 						<td><c:out value="${reg.teachingUnit.name}" /></td>
 						<td><c:out value="${reg.teachingUnit.creditValue}" /></td>
 					</tr>

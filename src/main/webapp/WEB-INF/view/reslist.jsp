@@ -30,6 +30,14 @@
 
 					<li class="active"><a href="/regs">Liste des inscriptions</a></li>
 				</ul>
+				
+				<ul>
+					<c:out value="Année ${currentYear}-${currentYear+1}"/>
+				</ul>
+				
+				<ul>
+					<c:out value="Connecté en tant que ${student.firstName} ${student.lastName}"/>
+				</ul>
 
 				<form class="navbar-form navbar-right" action="/search" method="get">
 					<div class="input-group">
@@ -68,22 +76,22 @@
 						<th>Status</th>
 					</tr>
 				</thead>
-				<c:forEach items="${regs}" var="reg">
+				<c:forEach items="${results}" var="res">
 					<tr>
-						<td><c:out value="${reg.teachingUnit.name}" /></td>
-						<td><c:out value="${reg.status}" /></td>
-						<td><c:out value="${reg.averageScore}" /></td>
+						<td><c:out value="${res.teachingUnit.name}" /></td>
+						<td><c:out value="${res.status}" /></td>
+						<td><c:out value="${res.averageScore}" /></td>
 						<td>
-							<a class="btn btn-info" href="/results/${reg.teachingUnit.code}">
+							<a class="btn btn-info" href="/results/${res.teachingUnit.code}">
 								Détail des notes
 							</a>
 						</td>
 
 						<td><c:choose>
-								<c:when test="${empty reg.averageScore}">
+								<c:when test="${empty res.averageScore}">
 									<c:out value="???" />
 								</c:when>
-								<c:when test="${reg.averageScore < 10}">
+								<c:when test="${res.averageScore < 10}">
 									<c:out value="AJ" />
 								</c:when>
 								<c:otherwise>

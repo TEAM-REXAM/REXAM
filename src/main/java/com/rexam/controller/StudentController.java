@@ -1,6 +1,7 @@
 package com.rexam.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rexam.dao.CurrentYearRepository;
 import com.rexam.dao.RegistrationRepository;
 import com.rexam.dao.ResultRepository;
+import com.rexam.dao.StudentRepository;
 import com.rexam.dao.StudentYearRepository;
 import com.rexam.dao.TeachingUnitRepository;
 import com.rexam.model.Component;
+import com.rexam.model.CurrentYear;
 import com.rexam.model.Exam;
-import com.rexam.model.IdResult;
-import com.rexam.model.IdStudentYear;
 import com.rexam.model.Registration;
-import com.rexam.model.Result;
+import com.rexam.model.Student;
 import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
+import com.rexam.service.AuthentificationFacade;
 
 @Controller
 public class StudentController {
@@ -30,11 +33,18 @@ public class StudentController {
 	@Autowired
 	TeachingUnitRepository tuRepository;
 	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
 	StudentYearRepository studYearRepository;
 	@Autowired
 	ResultRepository resultRepository;
 	@Autowired
 	RegistrationRepository regRepository;
+	@Autowired
+	CurrentYearRepository yearRepository;
+	
+	@Autowired
+	AuthentificationFacade authentificationFacade;
 
 	@RequestMapping("/showTeachingUnits")
 	public ModelAndView showDisciplines() {
@@ -92,7 +102,9 @@ public class StudentController {
 
 	@RequestMapping("/regs")
 	public ModelAndView listRegistrations() {
-		List<Registration> regs = regRepository.findAllByOrderByIdAsc();
+		
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		List<Registration> regs = regRepository.findByStudentYear(student);
 
 		if (regs == null) {
 			regs = new ArrayList<Registration>();
@@ -106,7 +118,8 @@ public class StudentController {
 
 	@RequestMapping("/results")
 	public ModelAndView listResults() {
-		List<Registration> regs = regRepository.findAllByOrderByIdAsc();
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		List<Registration> regs = regRepository.findByStudentYear(student);
 
 		if (regs == null) {
 			regs = new ArrayList<Registration>();
@@ -121,13 +134,11 @@ public class StudentController {
 	@RequestMapping("/results/{codeTU}")
 	public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
 		TeachingUnit tu = tuRepository.findOne(codeTU);
-		
-		StudentYear studYear = new StudentYear();
-
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
 
 		ModelAndView mav = new ModelAndView("detailRes");
 		mav.addObject("tu", tu);
-		mav.addObject("stud", studYear);
+		mav.addObject("studyear", student);
 		
 		return mav;
 	}
@@ -135,6 +146,16 @@ public class StudentController {
 	@ModelAttribute("teachingUnits")
 	Iterable<TeachingUnit> teachingUnits() {
 		return tuRepository.findAll();
+	}
+	
+	@ModelAttribute("currentYear")
+	Integer currentYear() {
+		return ((Collection<CurrentYear>) yearRepository.findAll())
+					.stream().findFirst().get().getYear();
+	}
+	
+	Student student() {
+		return studentRepository.findByEmail(authentificationFacade.getAuthentication().getName());
 	}
 
 

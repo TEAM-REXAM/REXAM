@@ -54,7 +54,7 @@
 			<h1>Rexam</h1>
 
 			<h2>
-				<c:out value="Détail des notes -- ${reg.teachingUnit.name}" />
+				<c:out value="Détail des notes -- ${tu.name}" />
 			</h2>
 
 			<div class="avg_details">
@@ -87,9 +87,9 @@
 
 						<tr>
 							<td><c:out value="${compo.exam.typeExam}" /></td>
-							<td><c:out value="${compo.exam.getResultByStudentYear(stud).score}" /></td>
+							<td><c:out value="${compo.exam.getResultByStudentYear(studyear).score}" /></td>
 							<td><c:out value="${compo.weight}" /></td>
-							<td><c:out value="${compo.exam.getResultByStudentYear(stud).dateObtened}" /></td>
+							<td><c:out value="${compo.exam.getResultByStudentYear(studyear).dateObtened}" /></td>
 						</tr>
 
 					</c:forEach>
