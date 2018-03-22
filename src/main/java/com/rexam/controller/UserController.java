@@ -32,11 +32,6 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/student-home"}, method = RequestMethod.GET)
-    public String student_home(Model model) {
-    	
-        return "student-home";
-    }
 
     @RequestMapping(value = {"/admin-home"}, method = RequestMethod.GET)
     public String admin_home(Model model) {
