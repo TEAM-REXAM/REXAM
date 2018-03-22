@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.rexam.security.service.SecurityService;
 import com.rexam.security.service.UserService;
-import com.rexam.security.validator.UserValidator;
+
 
 @Controller
 public class UserController {
@@ -18,8 +18,7 @@ public class UserController {
     @Autowired
     private SecurityService securityService;
 
-    @Autowired
-    private UserValidator userValidator;
+
     
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
