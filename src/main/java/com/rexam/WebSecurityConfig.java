@@ -44,21 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .permitAll();
     }
-    
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//    	auth
-//		.inMemoryAuthentication()
-//			.withUser("admin")
-//				.password("admin")
-//				.roles("admin");
-//
-//    	auth
-//		.inMemoryAuthentication()
-//			.withUser("stu")
-//				.password("stu")
-//				.roles("student");
-//    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

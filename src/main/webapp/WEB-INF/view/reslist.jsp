@@ -22,23 +22,27 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Index</a></li>
+					<li><a href="/">Index</a></li>
 
 
-					<li class="active"><a href="/showTeachingUnits">Liste des
-							UE</a></li>
+					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
 
-					<li class="active"><a href="/regs">Liste des inscriptions</a></li>
+					<li><a href="/rexam/regs">Liste des
+							inscriptions</a></li>
+
+					<li class="active"><a href="/rexam/results">Liste des résultats</a></li>
+
 				</ul>
+
+				<p class="navbar-text">
+					<c:out value="Année ${currentYear}-${currentYear+1}" />
+				</p>
+
+				<p class="navbar-text">
+					<c:out
+						value="Connecté en tant que ${student.firstName} ${student.lastName}" />
+				</p>
 				
-				<ul>
-					<c:out value="Année ${currentYear}-${currentYear+1}"/>
-				</ul>
-				
-				<ul>
-					<c:out value="Connecté en tant que ${student.firstName} ${student.lastName}"/>
-				</ul>
-
 				<form class="navbar-form navbar-right" action="/search" method="get">
 					<div class="input-group">
 						<input name="searchTerm" type="text" class="form-control"
@@ -51,10 +55,10 @@
 					</div>
 				</form>
 
-
 			</div>
 		</div>
 	</nav>
+
 
 	<div class="container">
 
@@ -80,12 +84,20 @@
 					<tr>
 						<td><c:out value="${res.teachingUnit.name}" /></td>
 						<td><c:out value="${res.status}" /></td>
-						<td><c:out value="${res.averageScore}" /></td>
-						<td>
-							<a class="btn btn-info" href="/results/${res.teachingUnit.code}">
-								Détail des notes
-							</a>
+						
+						<td><c:choose>
+								<c:when test="${empty res.averageScore}">
+									<c:out value="n/a" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="${res.averageScore}" />
+								</c:otherwise>
+							</c:choose>
 						</td>
+						
+						<td><a class="btn btn-info"
+							href="/rexam/results/${res.teachingUnit.code}"> Détail des
+								notes </a></td>
 
 						<td><c:choose>
 								<c:when test="${empty res.averageScore}">

@@ -23,23 +23,16 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Index</a></li>
+					<li><a href="/">Index</a></li>
 
 
-					<li class="active"><a href="/showTeachingUnits">Liste des
-							UE</a></li>
+					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
 
-					<li class="active"><a href="/regs">Liste des inscriptions</a></li>
+					<li class="active"><a href="/rexam/regs">Liste des
+							inscriptions</a></li>
 
-					<li class="active"><a href="/results">Liste des résultats</a></li>
-				</ul>
-				
-				<ul>
-					<c:out value="Année ${currentYear}-${currentYear+1}"/>
-				</ul>
-				
-				<ul>
-					<c:out value="Connecté en tant que ${student.firstName} ${student.lastName}"/>
+					<li><a href="/rexam/results">Liste des résultats</a></li>
+
 				</ul>
 
 				<form class="navbar-form navbar-right" action="/search" method="get">
@@ -54,10 +47,19 @@
 					</div>
 				</form>
 
+				<p class="navbar-text">
+					<c:out value="Année ${currentYear}-${currentYear+1}" />
+				</p>
+
+				<p class="navbar-text">
+					<c:out
+						value="Connecté en tant que ${student.firstName} ${student.lastName}" />
+				</p>
 
 			</div>
 		</div>
 	</nav>
+
 	<div class="container">
 
 		<div class="starter-template">

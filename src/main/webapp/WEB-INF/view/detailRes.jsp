@@ -22,15 +22,27 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Index</a></li>
+					<li><a href="/">Index</a></li>
 
 
-					<li class="active"><a href="/showTeachingUnits">Liste des
-							UE</a></li>
+					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
 
-					<li class="active"><a href="/regs">Liste des inscriptions</a></li>
+					<li><a href="/rexam/regs">Liste des
+							inscriptions</a></li>
+
+					<li><a href="/rexam/results">Liste des résultats</a></li>
+
 				</ul>
 
+				<p class="navbar-text">
+					<c:out value="Année ${currentYear}-${currentYear+1}" />
+				</p>
+
+				<p class="navbar-text">
+					<c:out
+						value="Connecté en tant que ${student.firstName} ${student.lastName}" />
+				</p>
+				
 				<form class="navbar-form navbar-right" action="/search" method="get">
 					<div class="input-group">
 						<input name="searchTerm" type="text" class="form-control"
@@ -43,11 +55,9 @@
 					</div>
 				</form>
 
-
 			</div>
 		</div>
 	</nav>
-
 	<div class="container">
 
 		<div class="starter-template">
@@ -87,9 +97,11 @@
 
 						<tr>
 							<td><c:out value="${compo.exam.typeExam}" /></td>
-							<td><c:out value="${compo.exam.getResultByStudentYear(studyear).score}" /></td>
+							<td><c:out
+									value="${compo.exam.getResultByStudentYear(studyear).score}" /></td>
 							<td><c:out value="${compo.weight}" /></td>
-							<td><c:out value="${compo.exam.getResultByStudentYear(studyear).dateObtened}" /></td>
+							<td><c:out
+									value="${compo.exam.getResultByStudentYear(studyear).dateObtened}" /></td>
 						</tr>
 
 					</c:forEach>
