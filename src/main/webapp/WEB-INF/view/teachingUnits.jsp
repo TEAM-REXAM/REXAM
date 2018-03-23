@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html lang="fr">
 <head>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -19,7 +20,6 @@
 </head>
 
 <body>
-
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -30,7 +30,8 @@
 					<li><a href="/">Index</a></li>
 
 
-					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
+					<li class="active"><a href="/rexam/showTeachingUnits">Liste
+							des UE</a></li>
 
 					<li><a href="/rexam/regs">Liste des inscriptions</a></li>
 
@@ -58,11 +59,6 @@
 						</div>
 					</div>
 				</form>
-				<form class="navbar-form" id="logoutForm" method="POST" action="${contextPath}/logout">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-				</form>
-				<a class="navbar-right" onclick="document.forms['logoutForm'].submit()">Logout</a>
 
 			</div>
 		</div>
@@ -70,47 +66,57 @@
 	<div class="container">
 
 		<div class="starter-template">
-			<h1>Rexam</h1>
+			<div class="page-header">
+				<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline :</h2>
-			<div id="accordion">
-				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
-					<h3>
+				<h2>Liste des UE par discipline :</h2>
+			</div>
+			<c:forEach items="${disciplines}" var="discipline" varStatus="i">
+				<div id="${i.index}" class="discipline">
+					<h3 id="titleDiscipline${i.index}">
 						<c:out value="${discipline}" />
 					</h3>
-					<div>
-						<table id="tu${i.index}" class="unitsTable table table-hover">
-							<thead>
-								<tr>
-									<th>Nom</th>
-									<th>Nb crédit</th>
-									<th>Épreuves</th>
-									<th>Actions</th>
-								</tr>
-							</thead>
-							<c:forEach items="${teachingUnits}" var="tu">
-								<c:if test="${discipline==tu.discipline }">
-									<tr>
-										<td><c:out value="${tu.name}" /></td>
-										<td><c:out value="${tu.creditValue}" /></td>
-										<td><a href="/rexam/showExams?code=${tu.code }">Détail
-												des épreuves</a></td>
-										<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
-									</tr>
 
-								</c:if>
-							</c:forEach>
-						</table>
-					</div>
-				</c:forEach>
-			</div>
+					<table id="tu${i.index}"
+						class="unitsTable table table-stripped table-hover">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Nb crédit</th>
+								<th>Épreuves</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<c:forEach items="${tuList}" var="tu">
+							<c:if test="${discipline==tu.discipline }">
+								<tr>
+									<td><c:out value="${tu.name}" /></td>
+									<td><c:out value="${tu.creditValue}" /></td>
+									<td><a href="/rexam/showExams?code=${tu.code }">Détail
+											des épreuves</a></td>
+									<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
+								</tr>
+							</c:if>
+						</c:forEach>
+					</table>
+				</div>
+
+			</c:forEach>
 		</div>
 	</div>
 	<script>
-		$(function() {
-			$("#accordion").accordion({
-				collapsible : true,
-				active : false
+		$(document).ready(function() {
+			$('.unitsTable').hide();
+			$(".discipline").click(function() {
+				row_id = $(this).attr('id');
+				if (!$("#tu" + row_id).is(":visible"))
+					$("#titleDiscipline" + row_id).addClass("bg-primary");
+				var currentSlide = $("#titleDiscipline" + row_id);
+				$("#tu" + row_id).slideToggle(function() {
+					if (!$("#tu" + row_id).is(":visible"))
+						currentSlide.removeClass("bg-primary");
+				});
+
 			});
 		});
 	</script>
