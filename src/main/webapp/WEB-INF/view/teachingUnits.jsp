@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html lang="fr">
 <head>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -23,7 +24,10 @@
 
 <body>
 
+
 	<%@include file="menu_student.jsp"%>
+
+	
 	<div class="container">
 
 		<div class="starter-template">
@@ -35,17 +39,20 @@
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
+
 						<c:out value="${discipline}" />
 					</h3>
-					<div>
-						<table id="tu${i.index}" class="unitsTable table table-hover">
-							<thead>
-								<tr>
-									<th>Nom</th>
-									<th>Nb crédit</th>
-									<th>Épreuves</th>
-									<th>Actions</th>
-								</tr>
+
+					<table id="tu${i.index}"
+						class="unitsTable table table-hover">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Nb crédit</th>
+								<th>Épreuves</th>
+								<th>Actions</th>
+							</tr>
+						
 							</thead>
 							<tbody>
 								<c:forEach items="${tuList}" var="tu">
@@ -62,7 +69,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
-					</div>
+				
 				</c:forEach>
 			</div>
 		</div>
@@ -73,6 +80,7 @@
 				collapsible : true,
 				active : false,
 				heightStyle : "content"
+
 			});
 		});
 	</script>

@@ -68,10 +68,8 @@ public class StudentController {
 	}
 
 	@RequestMapping("/showExams")
-	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU) {
-
-		TeachingUnit tu = tuRepository.findOne(codeTU);
-
+	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU) 
+{		TeachingUnit tu = tuRepository.findOne(codeTU);
 		ModelAndView mav = new ModelAndView("exams");
 		mav.addObject("teachingUnit", tu);
 		return mav;
