@@ -30,11 +30,11 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         logger.info("AT onAuthenticationSuccess(...) function!");
         
         for (GrantedAuthority auth : authentication.getAuthorities()) {
-            if (auth.getAuthority().equals("ROLE_admin")){
+            if (auth.getAuthority().equals("admin")){
             	response.sendRedirect("/admin-home");
             	return;
             }
         }
-        response.sendRedirect("/student-home");
+        response.sendRedirect("/rexam/showTeachingUnits");
 	}
 }

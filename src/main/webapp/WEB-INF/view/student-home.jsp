@@ -5,27 +5,17 @@
 <head>
 <!-- Access the bootstrap Css like this,
 		Spring boot will handle the resource mapping automcatically -->
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Rexam</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Index</a></li>
-				</ul>
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/showTeachingUnits">Liste des UE</a></li>
-				</ul>
-				
-			</div>
-		</div>
-	</nav>
+	<%@include file="menu_student.jsp" %>
 	<div class="container">
 
 		<div class="starter-template">

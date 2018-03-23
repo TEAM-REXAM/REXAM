@@ -7,51 +7,31 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <!-- Access the bootstrap Css like this,
 		Spring boot will handle the resource mapping automcatically -->
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+</head>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
 
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">Rexam</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Index</a></li>
-
-
-					<li class="active"><a href="/showTeachingUnits">Liste des
-							UE</a></li>
-				</ul>
-
-				<form class="navbar-form navbar-right" action="/search" method="get">
-					<div class="input-group">
-						<input name="searchTerm" type="text" class="form-control"
-							placeholder="Rechercher...">
-						<div class="input-group-btn">
-							<button class="btn btn-default" type="submit">
-								<i class="glyphicon glyphicon-search"></i>
-							</button>
-						</div>
-					</div>
-				</form>
-
-
-			</div>
-		</div>
-	</nav>
+	<%@include file="menu_student.jsp"%>
 	<div class="container">
 
 		<div class="starter-template">
+			<div class="page-header">
 			<h1>Rexam</h1>
 
 			<h2>Liste des UE par discipline :</h2>
+		</div>
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
@@ -67,18 +47,20 @@
 									<th>Actions</th>
 								</tr>
 							</thead>
-							<c:forEach items="${teachingUnits}" var="tu">
-								<c:if test="${discipline==tu.discipline }">
-									<tr>
-										<td><c:out value="${tu.name}" /></td>
-										<td><c:out value="${tu.creditValue}" /></td>
-										<td><a href="/showExams?code=${tu.code }">Détail des
-												épreuves</a></td>
-										<td><button>S'inscrire</button></td>
-									</tr>
+							<tbody>
+								<c:forEach items="${tuList}" var="tu">
+									<c:if test="${discipline==tu.discipline }">
+										<tr>
+											<td><c:out value="${tu.name}" /></td>
+											<td><c:out value="${tu.creditValue}" /></td>
+											<td><a href="/rexam/showExams?code=${tu.code }">Détail
+													des épreuves</a></td>
+											<td><a href="/rexam/registration?code=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
+										</tr>
 
-								</c:if>
-							</c:forEach>
+									</c:if>
+								</c:forEach>
+							</tbody>
 						</table>
 					</div>
 				</c:forEach>
@@ -89,7 +71,8 @@
 		$(function() {
 			$("#accordion").accordion({
 				collapsible : true,
-				active : false
+				active : false,
+				heightStyle : "content"
 			});
 		});
 	</script>

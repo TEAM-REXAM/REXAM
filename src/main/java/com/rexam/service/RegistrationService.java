@@ -2,6 +2,9 @@ package com.rexam.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,10 +65,12 @@ public class RegistrationService {
 		//Find the first element of current_year table aka the current year omg
 		int year = ((Collection<CurrentYear>) currentYearRepository.findAll()).stream().findFirst().get().getYear();
 		ids.setYear(year);
-
+		ids.setId(student.getId());
+		
 		StudentYear sYear = new StudentYear();
 		sYear.setStudent(student);
 		sYear.setId(ids);
+		
 		IdRegistration idr = new IdRegistration();
 		idr.setCodeTeachingUnit(codeUe);
 		idr.setIdStudentYear(ids);

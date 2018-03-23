@@ -25,4 +25,5 @@ public interface TeachingUnitRepository extends CrudRepository<TeachingUnit, Str
 	
 	@Query(value = "select tu.* from teaching_Unit tu, teaching_unit_components tuc where tu.code = tuc.teaching_unit_code and tuc.components_id= ?1",nativeQuery = true)
 	public List<TeachingUnit> findByComponent(Integer component);
+
 }
