@@ -50,11 +50,20 @@ public class StudentController {
 	@RequestMapping("/showTeachingUnits")
 	public ModelAndView showDisciplines() {
 		List<String> disciplines = tuRepository.findDisciplines();
-		List<TeachingUnit> teachingUnits = tuRepository.findAllByOrderByDisciplineAsc();
+		List<TeachingUnit> tuList = tuRepository.findAllByOrderByDisciplineAsc();
 
 		ModelAndView mav = new ModelAndView("teachingUnits");
 		mav.addObject("disciplines", disciplines);
-		mav.addObject("teachingUnits", teachingUnits);
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		List<Registration> regs = regRepository.findByStudentYear(student);
+		for(int i = 0; i < regs.size(); i++){
+			for(int j=0; j < tuList.size(); j++) {
+				if(regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode()) ) {
+					tuList.remove(j);
+				}
+			}
+		}
+		mav.addObject("tuList", tuList);
 		return mav;
 	}
 

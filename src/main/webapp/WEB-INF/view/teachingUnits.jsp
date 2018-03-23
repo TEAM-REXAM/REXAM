@@ -27,9 +27,11 @@
 	<div class="container">
 
 		<div class="starter-template">
+			<div class="page-header">
 			<h1>Rexam</h1>
 
 			<h2>Liste des UE par discipline :</h2>
+		</div>
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
@@ -46,14 +48,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${teachingUnits}" var="tu">
+								<c:forEach items="${tuList}" var="tu">
 									<c:if test="${discipline==tu.discipline }">
 										<tr>
 											<td><c:out value="${tu.name}" /></td>
 											<td><c:out value="${tu.creditValue}" /></td>
 											<td><a href="/rexam/showExams?code=${tu.code }">Détail
 													des épreuves</a></td>
-											<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
+											<td><a href="/rexam/registration?code=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
 										</tr>
 
 									</c:if>

@@ -23,10 +23,11 @@
 	<div class="container">
 
 		<div class="starter-template">
+			<div class="page-header">
 			<h1>Rexam</h1>
 
 			<h2><c:out value="${teachingUnit.name} :" /></h2>
-		
+		</div >
 			
 				<table class="table table-hover">
 					<tr>

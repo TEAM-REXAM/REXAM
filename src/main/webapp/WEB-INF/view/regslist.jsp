@@ -22,10 +22,11 @@
 	<div class="container">
 
 		<div class="starter-template">
-			<h1>Rexam</h1>
+			<div class="page-header">
+				<h1>Rexam</h1>
 
-			<h2>Liste des inscriptions :</h2>
-
+				<h2>Liste des inscriptions :</h2>
+			</div>
 
 			<table id="regslist" class="unitsTable table table-hover">
 				<thead>

@@ -22,11 +22,13 @@
 	<div class="container">
 
 		<div class="starter-template">
+			<div class="page-header">
 			<h1>Rexam</h1>
 
 			<h2>
 				<c:out value="Liste des résultats" />
 			</h2>
+		</div>
 
 			<table id="res_table" class="unitsTable table table-hover">
 				<thead>

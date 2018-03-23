@@ -21,11 +21,13 @@
 	<div class="container">
 
 		<div class="starter-template">
+			<div class="page-header">
 			<h1>Rexam</h1>
 
 			<h2>
 				<c:out value="Détail des notes -- ${tu.name}" />
 			</h2>
+		</div>
 
 			<div class="avg_details">
 
