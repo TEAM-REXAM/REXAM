@@ -9,6 +9,8 @@
 		Spring boot will handle the resource mapping automcatically -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -21,7 +23,7 @@
 
 <body>
 
-	<%@include file="menu_student.jsp" %>
+	<%@include file="menu_student.jsp"%>
 	<div class="container">
 
 		<div class="starter-template">
@@ -44,18 +46,18 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${teachingUnits}" var="tu">
-								<c:if test="${discipline==tu.discipline }">
-									<tr>
-										<td><c:out value="${tu.name}" /></td>
-										<td><c:out value="${tu.creditValue}" /></td>
-										<td><a href="/rexam/showExams?code=${tu.code }">Détail
-												des épreuves</a></td>
-										<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
-									</tr>
+								<c:forEach items="${teachingUnits}" var="tu">
+									<c:if test="${discipline==tu.discipline }">
+										<tr>
+											<td><c:out value="${tu.name}" /></td>
+											<td><c:out value="${tu.creditValue}" /></td>
+											<td><a href="/rexam/showExams?code=${tu.code }">Détail
+													des épreuves</a></td>
+											<td><a href="/rexam/registration?code=${tu.code }"><button>S'inscrire</button></a></td>
+										</tr>
 
-								</c:if>
-							</c:forEach>
+									</c:if>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -68,10 +70,9 @@
 			$("#accordion").accordion({
 				collapsible : true,
 				active : false,
-				heightStyle: "content"
+				heightStyle : "content"
 			});
 		});
-		
 	</script>
 </body>
 </html>
