@@ -17,49 +17,7 @@
 
 <body>
 
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">Rexam</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="/">Index</a></li>
-
-
-					<li><a href="/rexam/showTeachingUnits">Liste des UE</a></li>
-
-					<li><a href="/rexam/regs">Liste des
-							inscriptions</a></li>
-
-					<li><a href="/rexam/results">Liste des résultats</a></li>
-
-				</ul>
-
-				<p class="navbar-text">
-					<c:out value="Année ${currentYear}-${currentYear+1}" />
-				</p>
-
-				<p class="navbar-text">
-					<c:out
-						value="Connecté en tant que ${student.firstName} ${student.lastName}" />
-				</p>
-				
-				<form class="navbar-form navbar-right" action="/search" method="get">
-					<div class="input-group">
-						<input name="searchTerm" type="text" class="form-control"
-							placeholder="Rechercher...">
-						<div class="input-group-btn">
-							<button class="btn btn-default" type="submit">
-								<i class="glyphicon glyphicon-search"></i>
-							</button>
-						</div>
-					</div>
-				</form>
-
-			</div>
-		</div>
-	</nav>
+	<%@include file="menu_student.jsp" %>
 	<div class="container">
 
 		<div class="starter-template">

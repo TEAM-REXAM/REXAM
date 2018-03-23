@@ -14,38 +14,12 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	$("h2").click(function() {
-		$("#tu_list").slideToggle();
-	});
-</script>
+
 </head>
 
 <body>
 
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">Rexam</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Index</a></li>
-
-
-					<li class="active"><a href="/showTeachingUnits">Liste des
-							UE</a></li>
-				</ul>
-
-				<form class="navbar-form navbar-right" action="/action_page.php">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search...">
-					</div>
-				</form>
-
-
-			</div>
-		</div>
-	</nav>
+		<%@include file="menu_student.jsp" %>
 	<div class="container">
 
 		<div class="starter-template">
