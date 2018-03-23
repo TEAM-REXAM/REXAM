@@ -9,42 +9,18 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <!-- Access the bootstrap Css like this,
 		Spring boot will handle the resource mapping automcatically -->
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-<script>
-	$("h2").click(function() {
-		$("#tu_list").slideToggle();
-	});
-</script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">Rexam</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class=""><a href="/">Index</a></li>
-
-
-					<li class=""><a href="/showTeachingUnits">Liste des
-							UE</a></li>
-				</ul>
-
-				<form class="navbar-form navbar-right" action="/action_page.php">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search...">
-					</div>
-				</form>
-
-
-			</div>
-		</div>
-	</nav>
+<%@include file="menu_admin.jsp" %>
 	<h3><c:if test="${!results.examResults.isEmpty()}"><c:out value="    Code de l'epreuve : ${results.examResults.get(0).exam.code}"></c:out></c:if></h3>
 	<div class="container">
 

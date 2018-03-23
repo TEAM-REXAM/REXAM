@@ -1,6 +1,7 @@
 package com.rexam.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rexam.dao.ComponentRepository;
+import com.rexam.dao.CurrentYearRepository;
 import com.rexam.dao.ExamRepository;
 import com.rexam.dao.RegistrationRepository;
 import com.rexam.dao.ResultRepository;
 import com.rexam.dao.StudentRepository;
 import com.rexam.dao.TeachingUnitRepository;
 import com.rexam.model.Component;
+import com.rexam.model.CurrentYear;
 import com.rexam.model.Exam;
 import com.rexam.model.IdRegistration;
 import com.rexam.model.IdResult;
@@ -29,6 +32,7 @@ import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
 
 @Controller
+@RequestMapping("/admin")
 public class ResultController {
 
     @Autowired
@@ -48,7 +52,10 @@ public class ResultController {
 
     @Autowired
     ComponentRepository cRepository;
-
+    
+    @Autowired
+    CurrentYearRepository yearRepository;
+    
     @RequestMapping("/showExamResults")
     public ModelAndView showExamResults(@ModelAttribute(value = "results") Results examResults) {
 
@@ -82,7 +89,7 @@ public class ResultController {
         Student student = sRepository.findOne("srowlands0@vimeo.com");
 
         IdStudentYear idStudentYear = new IdStudentYear();
-        idStudentYear.setYear(2018);
+        idStudentYear.setYear(2019);
         idStudentYear.setId(1);
 
         StudentYear studentYear = new StudentYear();
@@ -139,7 +146,7 @@ public class ResultController {
 
         rRepository.save(r);
 
-        ModelAndView mav = new ModelAndView("redirect:/showExamResults");
+        ModelAndView mav = new ModelAndView("redirect:admin/showExamResults");
         return mav;
     }
     
@@ -149,7 +156,7 @@ public class ResultController {
         Student student = sRepository.findOne("srowlands0@vimeo.com");
 
         IdStudentYear idStudentYear = new IdStudentYear();
-        idStudentYear.setYear(2018);
+        idStudentYear.setYear(2019);
         idStudentYear.setId(1);
 
         StudentYear studentYear = new StudentYear();
@@ -206,7 +213,7 @@ public class ResultController {
 
         rRepository.save(r);
 
-        ModelAndView mav = new ModelAndView("redirect:/showExamResults");
+        ModelAndView mav = new ModelAndView("redirect:/admin/showExamResults");
         return mav;
     }
 
@@ -217,5 +224,10 @@ public class ResultController {
                 .findByExam(tuRepository.findOne("ENSPHCU89").getComponents().get(0).getExam()));
         return re;
     }
+	@ModelAttribute("currentYear")
+	Integer currentYear() {
+		return ((Collection<CurrentYear>) yearRepository.findAll())
+					.stream().findFirst().get().getYear();
+	}
 
 }
