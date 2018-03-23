@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
 	            	.antMatchers("/resources/**").permitAll()
+	            	.antMatchers("*/styles/**").permitAll()
 	            	.antMatchers("*/admin/*").hasRole("admin")
 	            	.antMatchers("*/rexam/*").hasRole("student")
 	            	.anyRequest().authenticated()
