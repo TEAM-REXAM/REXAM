@@ -86,6 +86,7 @@ public class RegistrationService {
 			res.setId(idres);
 			res.setStudentYear(sYear);
 			res.setExam(component.getExam());
+			res.setScore(0.0);
 			resultRepository.save(res);
 		}
 
