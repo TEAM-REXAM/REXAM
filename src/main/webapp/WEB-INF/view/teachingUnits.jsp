@@ -27,7 +27,7 @@
 
 	<%@include file="menu_student.jsp"%>
 
-	
+
 	<div class="container">
 
 		<div class="starter-template">
@@ -43,8 +43,7 @@
 						<c:out value="${discipline}" />
 					</h3>
 
-					<table id="tu${i.index}"
-						class="unitsTable table table-hover">
+					<table id="tu${i.index}"	class="unitsTable table table-hover">
 						<thead>
 							<tr>
 								<th>Nom</th>

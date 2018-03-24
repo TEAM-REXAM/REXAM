@@ -62,6 +62,7 @@ public class StudentController {
 					tuList.remove(j);
 				}
 			}
+
 		}
 		mav.addObject("tuList", tuList);
 		return mav;
