@@ -17,29 +17,22 @@
 </head>
 
 <body>
-
-		<%@include file="menu_student.jsp" %>
-
+	<%@include file="menu_student.jsp"%>
 
 	<div class="container">
-
 		<div class="starter-template">
-			<h1>Rexam</h1>
-
-			<h2>Résultats de la recherche pour ${searchTerm } :</h2>
-
-			<c:forEach items="${searchResults}" var="result">
-			
-					<h3>
-						<c:out value="${result.name}" />
-					</h3>
-
-					
-				
-			</c:forEach>
+			<div class="page-header">
+				<h1>Rexam</h1>
+				<h2>Résultats de la recherche pour ${searchTerm } :</h2>
+			</div>
+			<ul class="list-group">
+				<c:forEach items="${searchResults}" var="result">
+					<li class="list-group-item"><c:out
+							value="${result.name} (${result.discipline})" /></li>
+				</c:forEach>
+			</ul>
 		</div>
 	</div>
 
-	
 </body>
 </html>
