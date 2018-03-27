@@ -14,6 +14,7 @@ import com.rexam.model.StudentYear;
 
 public interface ResultRepository extends CrudRepository<Result, IdResult> {
 
+    @Query(value="select res from Result res, CurrentYear cy where res.exam = ?1 and res.studentYear.id.year = cy.year")
     public List<Result> findByExam(Exam exam);
 
     @Transactional

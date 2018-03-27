@@ -111,7 +111,9 @@ public class ResultController {
             @ModelAttribute(value = "results") @Valid Results re, BindingResult result) {
 
         if (!result.hasErrors()) {
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa----------------------------");
+            for (Result res : re.getExamResults())
+                System.out.println(res.getStudentYear().getId().getYear() + " ");
+
             rRepository.save(re.getExamResults());
             resService.setStatus("Calculable", re.getExamResults().get(0).getExam());
             resService.computeAvg(re.getExamResults().get(0).getExam());
@@ -119,7 +121,7 @@ public class ResultController {
         }
 
         else {
-            ModelAndView mav =new ModelAndView("redirect:/admin/showExamResults?codeExam="+exam);
+            ModelAndView mav = new ModelAndView("redirect:/admin/showExamResults?codeExam=" + exam);
             mav.addObject("ErrorMessage", "Les notes doivent être entre 0 et 20");
             return mav;
         }
@@ -140,8 +142,8 @@ public class ResultController {
     }
 
     @ModelAttribute("results")
-    Results examResutls(@RequestParam(value = "codeExam", required = false) String exam,
-            ModelMap model) {
+    Results examResutls(@ModelAttribute("currentYear") Integer currentYear,
+            @RequestParam(value = "codeExam", required = false) String exam, ModelMap model) {
         if (exam == null)
             return (Results) model.get("results");
 

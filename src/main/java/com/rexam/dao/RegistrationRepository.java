@@ -19,9 +19,9 @@ public interface RegistrationRepository extends CrudRepository<Registration, IdR
 	
 	public List<Registration> findByStudentYear (StudentYear studentYear);
 	
-	@Query(value="select tu from Registration reg, TeachingUnit tu where reg.teachingUnit = tu order by tu.discipline ASC")
+	@Query(value="select tu from CurrentYear cy, Registration reg, TeachingUnit tu where reg.teachingUnit = tu and reg.studentYear.id.year = cy.year order by tu.discipline ASC")
 	public List<TeachingUnit> findTeachingUnits();
 	
-	@Query(value="select DISTINCT tu.discipline from Registration reg, TeachingUnit tu where reg.teachingUnit = tu ")
+	@Query(value="select DISTINCT tu.discipline from CurrentYear cy, Registration reg, TeachingUnit tu where reg.teachingUnit = tu and reg.studentYear.id.year = cy.year")
     public List<String> findDisciplines();
 }
