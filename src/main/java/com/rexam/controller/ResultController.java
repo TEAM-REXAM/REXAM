@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,6 @@ import com.rexam.dao.CurrentYearRepository;
 import com.rexam.dao.ExamRepository;
 import com.rexam.dao.RegistrationRepository;
 import com.rexam.dao.ResultRepository;
-import com.rexam.dao.UserRepository;
 import com.rexam.model.CurrentYear;
 import com.rexam.model.Result;
 import com.rexam.model.TeachingUnit;
@@ -36,119 +36,129 @@ import com.rexam.service.ResultEditionService;
 @RequestMapping("/admin")
 public class ResultController {
 
-	@Autowired
-	ResultRepository rRepository;
+    @Autowired
+    ResultRepository rRepository;
 
-	@Autowired
-	ResultEditionService resService;
+    @Autowired
+    ResultEditionService resService;
 
-	@Autowired
-	RegistrationService regService;
+    @Autowired
+    RegistrationService regService;
 
-	@Autowired
-	CurrentYearRepository yearRepository;
+    @Autowired
+    CurrentYearRepository yearRepository;
 
-	@Autowired
-	RegistrationRepository regRepository;
+    @Autowired
+    RegistrationRepository regRepository;
 
-	@Autowired
-	ExamRepository exRepository;
-	@Autowired
-	AdminRepository adminRepository;
-	@Autowired
-	AuthentificationFacade authentificationFacade;
+    @Autowired
+    ExamRepository exRepository;
+    @Autowired
+    AdminRepository adminRepository;
+    @Autowired
+    AuthentificationFacade authentificationFacade;
 
-	@RequestMapping("/showTU")
-	public ModelAndView showTU(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) {
+    @RequestMapping("/showTU")
+    public ModelAndView showTU(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) {
 
-		String role = "student";
+        String role = "student";
 
-		for (GrantedAuthority auth : authentication.getAuthorities()) {
-			if (auth.getAuthority().equals("admin")) {
-				role = "admin";
-			}
-		}
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if (auth.getAuthority().equals("admin")) {
+                role = "admin";
+            }
+        }
 
-		List<String> disciplines = regRepository.findDisciplines();
-		List<TeachingUnit> tuList = regRepository.findTeachingUnits();
+        List<String> disciplines = regRepository.findDisciplines();
+        List<TeachingUnit> tuList = regRepository.findTeachingUnits();
 
-		ModelAndView mav = new ModelAndView("teachingUnits");
-		mav.addObject("disciplines", disciplines);
-		mav.addObject("tuList", tuList);
-		mav.addObject("role", role);
-		return mav;
-	}
+        ModelAndView mav = new ModelAndView("teachingUnits");
+        mav.addObject("disciplines", disciplines);
+        mav.addObject("tuList", tuList);
+        mav.addObject("role", role);
+        return mav;
+    }
 
-	@RequestMapping("/showExamResults")
-	public ModelAndView showExamResults(@ModelAttribute(value = "results") Results re, HttpServletRequest request,
-			HttpServletResponse response, Authentication authentication) {
+    @RequestMapping("/showExamResults")
+    public ModelAndView showExamResults(@ModelAttribute(value = "results") Results re,
+            HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) {
 
-		String role = "student";
+        String role = "student";
 
-		for (GrantedAuthority auth : authentication.getAuthorities()) {
-			if (auth.getAuthority().equals("admin")) {
-				role = "admin";
-			}
-		}
-		LocalDate current_date = LocalDate.now();
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if (auth.getAuthority().equals("admin")) {
+                role = "admin";
+            }
+        }
+        LocalDate current_date = LocalDate.now();
 
-		for (Result r : re.getExamResults()) {
-			r.setDateObtened(current_date.toString());
-		}
+        for (Result r : re.getExamResults()) {
+            r.setDateObtened(current_date.toString());
+        }
 
-		ModelAndView mav = new ModelAndView("examResults");
-		mav.addObject("results", re);
-		mav.addObject("role", role);
+        ModelAndView mav = new ModelAndView("examResults");
+        mav.addObject("results", re);
+        mav.addObject("role", role);
 
-		return mav;
-	}
+        return mav;
+    }
 
-	@RequestMapping("/editResults")
-	public ModelAndView processEdition(@ModelAttribute(value = "results") Results re, BindingResult result) {
+    @RequestMapping("/editResults")
+    public ModelAndView processEdition(
+            @RequestParam(value = "codeExam", required = false) String exam,
+            @ModelAttribute(value = "results") @Valid Results re, BindingResult result) {
 
-		if (!result.hasErrors()) {
-			rRepository.save(re.getExamResults());
-			resService.setStatus("Calculable", re.getExamResults().get(0).getExam());
-		}
+        if (!result.hasErrors()) {
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa----------------------------");
+            rRepository.save(re.getExamResults());
+            resService.setStatus("Calculable", re.getExamResults().get(0).getExam());
+            resService.computeAvg(re.getExamResults().get(0).getExam());
+            return new ModelAndView("redirect:/admin/showTU");
+        }
 
-		resService.computeAvg(re.getExamResults().get(0).getExam());
+        else {
+            ModelAndView mav =new ModelAndView("redirect:/admin/showExamResults?codeExam="+exam);
+            mav.addObject("ErrorMessage", "Les notes doivent être entre 0 et 20");
+            return mav;
+        }
+    }
 
-		return new ModelAndView("redirect:/admin/showTU");
-	}
+    @RequestMapping("/initData")
+    public ModelAndView addTeachingUnits(@ModelAttribute(value = "results") Results examResults) {
+        try {
+            regService.registration("srowlands0@vimeo.com", "ENSPHCU89");
+            regService.registration("srowlands0@vimeo.com", "ENSPHCU97");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	@RequestMapping("/initData")
-	public ModelAndView addTeachingUnits(@ModelAttribute(value = "results") Results examResults) {
-		try {
-			regService.registration("srowlands0@vimeo.com", "ENSPHCU89");
-			regService.registration("srowlands0@vimeo.com", "ENSPHCU97");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        ModelAndView mav = new ModelAndView("redirect:/admin/showTU");
+        return mav;
+    }
 
-		ModelAndView mav = new ModelAndView("redirect:/admin/showTU");
-		return mav;
-	}
+    @ModelAttribute("results")
+    Results examResutls(@RequestParam(value = "codeExam", required = false) String exam,
+            ModelMap model) {
+        if (exam == null)
+            return (Results) model.get("results");
 
-	@ModelAttribute("results")
-	Results examResutls(@RequestParam(value = "codeExam", required = false) String exam, ModelMap model) {
-		if (exam == null)
-			return (Results) model.get("results");
+        Results re = new Results();
+        re.setExamResults(rRepository.findByExam(exRepository.findOne(exam)));
+        return re;
+    }
 
-		Results re = new Results();
-		re.setExamResults(rRepository.findByExam(exRepository.findOne(exam)));
-		return re;
-	}
+    @ModelAttribute("currentYear")
+    Integer currentYear() {
+        return ((Collection<CurrentYear>) yearRepository.findAll()).stream().findFirst().get()
+                .getYear();
+    }
 
-	@ModelAttribute("currentYear")
-	Integer currentYear() {
-		return ((Collection<CurrentYear>) yearRepository.findAll()).stream().findFirst().get().getYear();
-	}
-
-	@ModelAttribute("user")
-	User user() {
-		return adminRepository.findByEmail(authentificationFacade.getAuthentication().getName());
-	}
+    @ModelAttribute("user")
+    User user() {
+        return adminRepository.findByEmail(authentificationFacade.getAuthentication().getName());
+    }
 
 }

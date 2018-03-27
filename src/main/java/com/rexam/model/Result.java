@@ -4,6 +4,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Result {
@@ -13,6 +16,9 @@ public class Result {
 	
 	private String dateObtened;
 	
+	@NotNull
+    @Max(value = 20, message = "La note doit être inférieure ou égale à 20")
+    @Min(value = 0, message = "La note doit être supérieure ou égale à 0")
 	private Double score;
 	
 	@ManyToOne

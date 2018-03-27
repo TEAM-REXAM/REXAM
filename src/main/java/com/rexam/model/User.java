@@ -5,11 +5,14 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import org.hibernate.validator.constraints.Email;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
 
 	@Id
+	@Email
 	private String email;
 	//changed Password to password
 	private String password;

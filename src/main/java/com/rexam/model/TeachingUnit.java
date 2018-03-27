@@ -8,67 +8,72 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
 
 @Entity
 public class TeachingUnit {
 
-	@Id
-	private String code;
-	private String name;
-	private int creditValue;
-	private String discipline;
+    @Id
+    private String code;
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	private List<Component> components;
+    private String name;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Registration> registration;
+    @Min(value = 1, message = "Le nombre de crédits doit être supérieure ou égal à 0")
+    private int creditValue;
 
-	public String getName() {
-		return name;
-	}
+    private String discipline;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    private List<Component> components;
 
-	public String getDiscipline() {
-		return discipline;
-	}
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Registration> registration;
 
-	public void setDiscipline(String discipline) {
-		this.discipline = discipline;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<Component> getComponents() {
-		return components;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setComponents(List<Component> components) {
-		this.components = components;
-	}
+    public String getDiscipline() {
+        return discipline;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setDiscipline(String discipline) {
+        this.discipline = discipline;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public List<Component> getComponents() {
+        return components;
+    }
 
-	public int getCreditValue() {
-		return creditValue;
-	}
+    public void setComponents(List<Component> components) {
+        this.components = components;
+    }
 
-	public void setCreditValue(int creditValue) {
-		this.creditValue = creditValue;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public List<Registration> getRegistration() {
-		return registration;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setRegistration(List<Registration> registration) {
-		this.registration = registration;
-	}
+    public int getCreditValue() {
+        return creditValue;
+    }
+
+    public void setCreditValue(int creditValue) {
+        this.creditValue = creditValue;
+    }
+
+    public List<Registration> getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(List<Registration> registration) {
+        this.registration = registration;
+    }
 }

@@ -5,6 +5,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 public class Registration {
@@ -19,7 +21,10 @@ public class Registration {
 	@MapsId("idStudentYear")
 	private StudentYear studentYear;
 
+	@Max(value = 20, message = "La moyenne doit être inférieure ou égale à 20")
+    @Min(value = 0, message = "La moyenne doit être supérieure ou égale à 0")
 	private Double averageScore;
+	
 	private String status;
 
 	public IdRegistration getId() {

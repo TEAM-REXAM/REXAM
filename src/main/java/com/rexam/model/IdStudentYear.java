@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class IdStudentYear implements Serializable {
@@ -13,8 +15,11 @@ public class IdStudentYear implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2538447516915936035L;
-
+	
+	@NotNull
+    @Min(value = 1900, message = "immortel êtes vous?")
 	private int year;
+	
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 

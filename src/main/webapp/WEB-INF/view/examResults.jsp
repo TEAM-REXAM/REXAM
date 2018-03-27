@@ -24,6 +24,9 @@
 	<h3><c:if test="${!results.examResults.isEmpty()}"><c:out value="    Code de l'epreuve : ${results.examResults.get(0).exam.code}"></c:out></c:if></h3>
 	<div class="container">
 
+		<div  id="message">
+         <div>${ErrorMessage}</div>
+      </div>
 		<div class="starter-template">
 				<table class="table table-hover">
 					<tr>
@@ -32,13 +35,14 @@
 						<th>Note</th>
 						<th>Date d'obtention</th>
 					</tr>
+					 
 					
 					  <form:form method="POST" modelAttribute="results" action="editResults?codeExam=${results.examResults.get(0).exam.code}">
 						<c:forEach items="${results.examResults}" varStatus="resStat" var ="res">
 							<tr>
 								<td><c:out value="${res.studentYear.student.firstname}" /></td>
 								<td><c:out value="${res.studentYear.student.lastname}" /></td>
-								<td><form:input path="examResults[${resStat.index}].score"/></td>
+								<td><form:input path="examResults[${resStat.index}].score" type="number" min="0" max="20"/></td>
 								<td><form:input path="examResults[${resStat.index}].dateObtened" type ="date"/></td>
 							</tr>
 						</c:forEach>
@@ -48,4 +52,7 @@
 		</div>
 	</div>
 </body>
+<script>setTimeout(function() {
+	 $('#message').fadeOut();
+}, 1000 );</script>
 </html>
