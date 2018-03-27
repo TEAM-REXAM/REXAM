@@ -5,6 +5,11 @@
 <nav class="navbar navbar-dark" style="background-color: #e3f2fd;">
 	<div class="container">
 		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#navbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
 			<a class="navbar-brand" href="/rexam/showTeachingUnits">Rexam</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
@@ -37,8 +42,7 @@
 					</div>
 				</div>
 			</form>
-			<form id="logoutForm" method="POST"
-				action="${contextPath}/logout">
+			<form id="logoutForm" method="POST" action="${contextPath}/logout">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
 			</form>
