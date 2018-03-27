@@ -37,8 +37,6 @@
 						<th>Note</th>
 						<th>Date d'obtention</th>
 					</tr>
-					 
-					
 					  <form:form method="POST" modelAttribute="results" action="editResults?codeExam=${results.examResults.get(0).exam.code}">
 						<c:forEach items="${results.examResults}" varStatus="resStat" var ="res">
 							<tr>

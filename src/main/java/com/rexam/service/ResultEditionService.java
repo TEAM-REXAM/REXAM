@@ -10,6 +10,7 @@ import com.rexam.dao.TeachingUnitRepository;
 import com.rexam.model.Component;
 import com.rexam.model.Exam;
 import com.rexam.model.Registration;
+import com.rexam.model.Result;
 import com.rexam.model.TeachingUnit;
 
 @Service
@@ -38,12 +39,29 @@ public class ResultEditionService {
         }
     }
 
-    public void setStatus(String status, Exam exam) {
+    public void updateStatus(Exam exam) {
         for (Component c : cRepository.findByExam(exam)) {
             for (TeachingUnit tu : tuRepository.findByComponent(c.getId())) {
                 for (Registration reg : regRepository.findByIdCodeTeachingUnit(tu.getCode())) {
-                    rRepository.setStatus(tu.getCode(), reg.getStudentYear().getId().getId(),
-                            reg.getStudentYear().getId().getYear(), status);
+                    boolean flag = true;
+                    for (Component comp : reg.getTeachingUnit().getComponents()) {
+
+                        Result res = rRepository.findByExamAndStudentYear(comp.getExam(),
+                                reg.getStudentYear());
+
+                        if (res.getDateObtened() == null || res.getDateObtened().equals("")) {
+                            rRepository.setStatus(tu.getCode(),
+                                    reg.getStudentYear().getId().getId(),
+                                    reg.getStudentYear().getId().getYear(),
+                                    "Partiellement calculable");
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        rRepository.setStatus(tu.getCode(), reg.getStudentYear().getId().getId(),
+                                reg.getStudentYear().getId().getYear(), "Entièrement calculable");
+                    }
                 }
             }
         }

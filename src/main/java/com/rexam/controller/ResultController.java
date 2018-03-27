@@ -115,8 +115,11 @@ public class ResultController {
                 System.out.println(res.getStudentYear().getId().getYear() + " ");
 
             rRepository.save(re.getExamResults());
-            resService.setStatus("Calculable", re.getExamResults().get(0).getExam());
+            resService.updateStatus(re.getExamResults().get(0).getExam());
             resService.computeAvg(re.getExamResults().get(0).getExam());
+            
+            
+            
             return new ModelAndView("redirect:/admin/showTU");
         }
 
