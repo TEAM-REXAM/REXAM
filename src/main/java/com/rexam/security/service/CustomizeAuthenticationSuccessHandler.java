@@ -31,7 +31,7 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if (auth.getAuthority().equals("admin")){
-            	response.sendRedirect("/admin/");
+            	response.sendRedirect("/admin/showTU");
             	return;
             }
         }

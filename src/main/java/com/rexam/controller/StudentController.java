@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,12 +75,22 @@ public class StudentController {
 	}
 
 	@RequestMapping("/showExams")
-	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU) {
+	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU,HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) {
 
+	    String role = "student";
+
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if (auth.getAuthority().equals("admin")) {
+                role = "admin";
+            }
+        }
 		TeachingUnit tu = tuRepository.findOne(codeTU);
 
 		ModelAndView mav = new ModelAndView("exams");
 		mav.addObject("teachingUnit", tu);
+		mav.addObject("role", role);
+		 
 		return mav;
 	}
 

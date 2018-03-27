@@ -24,7 +24,8 @@
 <body>
 
 <c:choose>
-<c:when test=""><%@include file="menu_student.jsp"%></c:when> <c:otherwise><%@include file="menu_admin.jsp"%></c:otherwise>
+<c:when test="${role.equals('admin')}"><%@include file="menu_admin.jsp"%></c:when> <c:otherwise><%@include file="menu_student.jsp"%></c:otherwise>
+
 </c:choose>
 	
 	<div class="container">
@@ -33,7 +34,7 @@
 			<div class="page-header">
 			<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline :</h2>
+			<h2>Liste des UE par discipline <c:if test="${role.equals('admin')}">(ayants des inscriptions) </c:if> :</h2>
 		</div>
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
@@ -47,7 +48,9 @@
 									<th>Nom</th>
 									<th>Nb crédit</th>
 									<th>Épreuves</th>
+									<c:if test="${!role.equals('admin')}">
 									<th>Actions</th>
+									</c:if>
 								</tr>
 							</thead>
 							<tbody>
@@ -58,8 +61,8 @@
 											<td><c:out value="${tu.creditValue}" /></td>
 											<td><a href="/rexam/showExams?code=${tu.code }">Détail
 													des épreuves</a></td>
-													<c:if test="">
-											<td><a href="/rexam/registration?exam=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
+													<c:if test="${!role.equals('admin')}">
+											<td><a href="/rexam/registration?code=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
 											</c:if>
 										</tr>
 
