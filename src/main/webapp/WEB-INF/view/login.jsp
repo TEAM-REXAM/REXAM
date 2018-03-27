@@ -15,14 +15,14 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <body>
 
-<nav class="navbar navbar-dark" style="background-color: #e3f2fd;">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#navbar">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
+	<nav class="navbar navbar-dark" style="background-color: #e3f2fd;">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#navbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
 				<a class="navbar-brand" href="#">Rexam</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
@@ -33,22 +33,21 @@
 		</div>
 	</nav>
 	<div class="container">
+			<form method="POST" action="${contextPath}/login" class="form-signin" style ="max-width:330px;margin: 0 auto;">
+				<h2 class="form-signin-heading">Login</h2>
 
-		<form method="POST" action="${contextPath}/login" class="form-signin">
-			<h2 class="form-heading">Login</h2>
+				<div class="form-group ${error != null ? 'has-error' : ''}">
+					<span>${message}</span> <input name="username" type="text"
+						class="form-control" placeholder="Mail" autofocus /> <input
+						name="password" type="password" class="form-control"
+						placeholder="Mot de passe" /> <span>${error}</span> <input
+						type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-			<div class="form-group ${error != null ? 'has-error' : ''}">
-				<span>${message}</span> <input name="username" type="text"
-					class="form-control" placeholder="Mail" autofocus/> <input
-					name="password" type="password" class="form-control"
-					placeholder="Password" /> <span>${error}</span> <input
-					type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<button class="btn btn-lg btn-primary btn-block btn-signin"
+						type="submit">Log In</button>
+				</div>
 
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Log
-					In</button>
-			</div>
-
-		</form>
-	</div>
+			</form>
+		</div>
 </body>
 </html>
