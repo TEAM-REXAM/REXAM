@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rexam.model.Exam;
 import com.rexam.model.IdResult;
 import com.rexam.model.Result;
+import com.rexam.model.StudentYear;
 
 public interface ResultRepository extends CrudRepository<Result, IdResult> {
 
@@ -26,5 +27,10 @@ public interface ResultRepository extends CrudRepository<Result, IdResult> {
             + "where teaching_unit_code=?1 and student_year_id = ?2 and student_year_year = ?3",nativeQuery = true)
     public void computeAvg(String tu_code, Integer sy_id, Integer sy_y);
 
+    
+    public Result findByExamAndStudentYear(Exam exam, StudentYear studentYear);
+    
+    @Procedure(name="computeAvg")
+    public void computeAvg(@Param("tu_code") String tu_code, @Param("sy_id")Integer sy_id,@Param("sy_y") Integer sy_y);
 
 }

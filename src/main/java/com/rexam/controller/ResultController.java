@@ -1,6 +1,6 @@
 package com.rexam.controller;
 
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,14 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+
+
+import com.rexam.dao.CurrentYearRepository;
+import com.rexam.dao.ExamRepository;
+import com.rexam.dao.RegistrationRepository;
+
 import com.rexam.dao.ResultRepository;
 import com.rexam.dao.TeachingUnitRepository;
+
+import com.rexam.model.CurrentYear;
 import com.rexam.model.Exam;
 import com.rexam.model.Result;
 import com.rexam.service.RegistrationService;
 import com.rexam.service.ResultEditionService;
 
 @Controller
+@RequestMapping("/admin")
 public class ResultController {
 
     @Autowired
@@ -31,7 +40,10 @@ public class ResultController {
     
     @Autowired
     RegistrationService regService;
-
+    
+    @Autowired
+    CurrentYearRepository yearRepository;
+    
     @RequestMapping("/showExamResults")
     public ModelAndView showExamResults(@ModelAttribute(value = "results") Results examResults) {
 
@@ -49,8 +61,6 @@ public class ResultController {
 
         resService.computeAvg(re.getExamResults().get(0).getExam());
         
-        
-
         return new ModelAndView("index");
     }
 
@@ -75,5 +85,10 @@ public class ResultController {
                 .findByExam(tuRepository.findOne("ENSPHCU89").getComponents().get(0).getExam()));
         return re;
     }
+	@ModelAttribute("currentYear")
+	Integer currentYear() {
+		return ((Collection<CurrentYear>) yearRepository.findAll())
+					.stream().findFirst().get().getYear();
+	}
 
 }
