@@ -23,6 +23,7 @@ import com.rexam.dao.ResultRepository;
 import com.rexam.dao.StudentRepository;
 import com.rexam.dao.StudentYearRepository;
 import com.rexam.dao.TeachingUnitRepository;
+import com.rexam.dao.UserRepository;
 import com.rexam.model.Component;
 import com.rexam.model.CurrentYear;
 import com.rexam.model.Exam;
@@ -30,6 +31,7 @@ import com.rexam.model.Registration;
 import com.rexam.model.Student;
 import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
+import com.rexam.model.User;
 import com.rexam.service.AuthentificationFacade;
 import com.rexam.service.DetailResultService;
 
@@ -49,8 +51,8 @@ public class StudentController {
 	RegistrationRepository regRepository;
 	@Autowired
 	CurrentYearRepository yearRepository;
-	
-	
+	@Autowired
+	UserRepository userRepository;
 	@Autowired
 	AuthentificationFacade authentificationFacade;
 
@@ -63,9 +65,9 @@ public class StudentController {
 		mav.addObject("disciplines", disciplines);
 		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
 		List<Registration> regs = regRepository.findByStudentYear(student);
-		for(int i = 0; i < regs.size(); i++){
-			for(int j=0; j < tuList.size(); j++) {
-				if(regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode()) ) {
+		for (int i = 0; i < regs.size(); i++) {
+			for (int j = 0; j < tuList.size(); j++) {
+				if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())) {
 					tuList.remove(j);
 				}
 			}
@@ -75,22 +77,22 @@ public class StudentController {
 	}
 
 	@RequestMapping("/showExams")
-	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU,HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) {
+	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU,
+			HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
-	    String role = "student";
+		String role = "student";
 
-        for (GrantedAuthority auth : authentication.getAuthorities()) {
-            if (auth.getAuthority().equals("admin")) {
-                role = "admin";
-            }
-        }
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			if (auth.getAuthority().equals("admin")) {
+				role = "admin";
+			}
+		}
 		TeachingUnit tu = tuRepository.findOne(codeTU);
 
 		ModelAndView mav = new ModelAndView("exams");
 		mav.addObject("teachingUnit", tu);
 		mav.addObject("role", role);
-		 
+
 		return mav;
 	}
 
@@ -129,7 +131,7 @@ public class StudentController {
 
 	@RequestMapping("/regs")
 	public ModelAndView listRegistrations() {
-		
+
 		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
 		List<Registration> regs = regRepository.findByStudentYear(student);
 
@@ -162,28 +164,28 @@ public class StudentController {
 	public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
 		TeachingUnit tu = tuRepository.findOne(codeTU);
 		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
-		
+
 		List<DetailResultService> detailRes = new ArrayList<DetailResultService>();
 		DetailResultService tmpLine;
-		
+
 		for (Component compo : tu.getComponents()) {
 			tmpLine = new DetailResultService();
-			
+
 			tmpLine.setTypeExam(compo.getExam().getTypeExam());
 			tmpLine.setScore(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getScore());
 			tmpLine.setWeight(compo.getWeight());
 			tmpLine.setDateObt(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getDateObtened());
-		
+
 			detailRes.add(tmpLine);
 		}
 
 		ModelAndView mav = new ModelAndView("detailRes");
 		mav.addObject("tuname", tu.getName());
-		
+
 		mav.addObject("detailRes", detailRes);
-		
+
 		mav.addObject("studyear", student);
-		
+
 		return mav;
 	}
 
@@ -191,16 +193,18 @@ public class StudentController {
 	Iterable<TeachingUnit> teachingUnits() {
 		return tuRepository.findAll();
 	}
-	
+
 	@ModelAttribute("currentYear")
 	Integer currentYear() {
-		return ((Collection<CurrentYear>) yearRepository.findAll())
-					.stream().findFirst().get().getYear();
+		return ((Collection<CurrentYear>) yearRepository.findAll()).stream().findFirst().get().getYear();
 	}
-	
+	@ModelAttribute("student")
 	Student student() {
 		return studentRepository.findByEmail(authentificationFacade.getAuthentication().getName());
 	}
-
+	@ModelAttribute("user")
+	User user() {
+		return userRepository.findByEmail(authentificationFacade.getAuthentication().getName());
+	}
 
 }

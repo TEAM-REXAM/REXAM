@@ -23,8 +23,8 @@
 			</p>
 
 			<p class="navbar-text">
-<%-- 				<c:out --%>
-<%-- 					value="Connecté en tant que ${student.firstName} ${student.lastName}" /> --%>
+				<c:out
+					value="${user.firstname} ${user.lastname}"/>
 			</p>
 
 			<form class="navbar-form navbar-left" action="/search" method="get">

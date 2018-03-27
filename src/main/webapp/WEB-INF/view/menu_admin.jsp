@@ -5,7 +5,7 @@
 <nav class="navbar navbar-inverse">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/admin/">Rexam</a>
+			<a class="navbar-brand" href="/admin/showTU">Rexam</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
@@ -19,8 +19,8 @@
 			</p>
 
 			<p class="navbar-text">
-<%-- 				<c:out --%>
-<%-- 					value="Connecté en tant que ${admin.firstName} ${admin.lastName}" /> --%>
+ 				<c:out 
+ 					value="${user.firstname} ${user.lastname}" />
 			</p>
 
 			<form class="navbar-form" id="logoutForm" method="POST"
