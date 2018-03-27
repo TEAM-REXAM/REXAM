@@ -16,6 +16,8 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-confirmation/1.0.7/bootstrap-confirmation.min.js"></script>
 
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -23,19 +25,25 @@
 
 <body>
 
-<c:choose>
-<c:when test="${role.equals('admin')}"><%@include file="menu_admin.jsp"%></c:when> <c:otherwise><%@include file="menu_student.jsp"%></c:otherwise>
+	<c:choose>
+		<c:when test="${role.equals('admin')}"><%@include
+				file="menu_admin.jsp"%></c:when>
+		<c:otherwise><%@include file="menu_student.jsp"%></c:otherwise>
 
-</c:choose>
-	
+	</c:choose>
+
 	<div class="container">
 
 		<div class="starter-template">
 			<div class="page-header">
-			<h1>Rexam</h1>
+				<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline <c:if test="${role.equals('admin')}">(ayants des inscriptions) </c:if> :</h2>
-		</div>
+				<h2>
+					Liste des UE par discipline
+					<c:if test="${role.equals('admin')}">(ayants des inscriptions) </c:if>
+					:
+				</h2>
+			</div>
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
@@ -49,7 +57,7 @@
 									<th>Nb crédit</th>
 									<th>Épreuves</th>
 									<c:if test="${!role.equals('admin')}">
-									<th>Actions</th>
+										<th>Actions</th>
 									</c:if>
 								</tr>
 							</thead>
@@ -61,8 +69,14 @@
 											<td><c:out value="${tu.creditValue}" /></td>
 											<td><a href="/rexam/showExams?code=${tu.code }">Détail
 													des épreuves</a></td>
-													<c:if test="${!role.equals('admin')}">
-											<td><a href="/rexam/registration?code=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
+											<c:if test="${!role.equals('admin')}">
+												<td><a data-toggle="confirmation"
+													data-title="Confirmer l'inscription ?"
+													data-btn-ok-label="Confirmer" 
+													data-btn-ok-class="btn-info"
+													data-btn-cancel-label="Retour"
+													href="/rexam/registration?code=${tu.code }"><button
+															class="btn-primary">S'inscrire</button></a></td>
 											</c:if>
 										</tr>
 
@@ -82,6 +96,10 @@
 				active : false,
 				heightStyle : "content"
 			});
+		});
+
+		$('[data-toggle=confirmation]').confirmation({
+			rootSelector : '[data-toggle=confirmation]'
 		});
 	</script>
 </body>
