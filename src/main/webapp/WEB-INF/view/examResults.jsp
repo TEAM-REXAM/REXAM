@@ -21,7 +21,7 @@
 <body>
 
 <%@include file="menu_admin.jsp" %>
-<c:choose><c:when test="${results == null || results.examResults == null}"><h1>AUCUN RESULTAT POUR CETTE EPREUVE</h1></c:when> 
+<c:choose><c:when test="${results == null || results.examResults == null || results.examResults.isEmpty()}"><h1>AUCUN RESULTAT POUR CETTE EPREUVE</h1></c:when> 
 <c:otherwise>
 	<h3><c:if test="${!results.examResults.isEmpty()}"><c:out value="    Code de l'epreuve : ${results.examResults.get(0).exam.code}"></c:out></c:if></h3>
 	<div class="container">
