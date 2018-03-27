@@ -30,7 +30,4 @@ public interface ResultRepository extends CrudRepository<Result, IdResult> {
     
     public Result findByExamAndStudentYear(Exam exam, StudentYear studentYear);
     
-    @Procedure(name="computeAvg")
-    public void computeAvg(@Param("tu_code") String tu_code, @Param("sy_id")Integer sy_id,@Param("sy_y") Integer sy_y);
-
 }

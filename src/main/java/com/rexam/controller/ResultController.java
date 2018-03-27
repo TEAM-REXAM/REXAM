@@ -2,6 +2,8 @@ package com.rexam.controller;
 
 
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -10,18 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
-
 import com.rexam.dao.CurrentYearRepository;
-import com.rexam.dao.ExamRepository;
-import com.rexam.dao.RegistrationRepository;
-
 import com.rexam.dao.ResultRepository;
 import com.rexam.dao.TeachingUnitRepository;
-
 import com.rexam.model.CurrentYear;
 import com.rexam.model.Exam;
-import com.rexam.model.Result;
 import com.rexam.service.RegistrationService;
 import com.rexam.service.ResultEditionService;
 
@@ -81,10 +76,10 @@ public class ResultController {
     @ModelAttribute("results")
     Results examResutls(@RequestParam(value = "exam", required = false) Exam exam) {
         Results re = new Results();
-        re.setExamResults((List<Result>) rRepository
-                .findByExam(tuRepository.findOne("ENSPHCU89").getComponents().get(0).getExam()));
+        re.setExamResults(rRepository.findByExam(tuRepository.findOne("ENSPHCU89").getComponents().get(0).getExam()));
         return re;
     }
+    
 	@ModelAttribute("currentYear")
 	Integer currentYear() {
 		return ((Collection<CurrentYear>) yearRepository.findAll())
