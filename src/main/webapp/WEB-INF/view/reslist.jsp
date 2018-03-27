@@ -17,18 +17,18 @@
 
 <body>
 
-		<%@include file="menu_student.jsp" %>
+	<%@include file="menu_student.jsp"%>
 
 	<div class="container">
 
 		<div class="starter-template">
 			<div class="page-header">
-			<h1>Rexam</h1>
+				<h1>Rexam</h1>
 
-			<h2>
-				<c:out value="Liste des résultats" />
-			</h2>
-		</div>
+				<h2>
+					<c:out value="Liste des résultats" />
+				</h2>
+			</div>
 
 			<table id="res_table" class="unitsTable table table-hover">
 				<thead>
@@ -45,7 +45,7 @@
 					<tr>
 						<td><c:out value="${res.teachingUnit.name}" /></td>
 						<td><c:out value="${res.status}" /></td>
-						
+
 						<td><c:choose>
 								<c:when test="${empty res.averageScore}">
 									<c:out value="n/a" />
@@ -53,12 +53,13 @@
 								<c:otherwise>
 									<c:out value="${res.averageScore}" />
 								</c:otherwise>
-							</c:choose>
-						</td>
-						
+							</c:choose></td>
+
 						<td><a class="btn btn-info"
 							href="/rexam/results/${res.teachingUnit.code}"> Détail des
 								notes </a></td>
+
+						<td><c:out value="${res.teachingUnit.creditValue}" /></td>
 
 						<td><c:choose>
 								<c:when test="${empty res.averageScore}">
