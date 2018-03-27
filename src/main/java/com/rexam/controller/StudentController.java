@@ -26,6 +26,7 @@ import com.rexam.model.Student;
 import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
 import com.rexam.service.AuthentificationFacade;
+import com.rexam.service.DetailResultService;
 
 @Controller
 @RequestMapping("/rexam")
@@ -43,6 +44,7 @@ public class StudentController {
 	RegistrationRepository regRepository;
 	@Autowired
 	CurrentYearRepository yearRepository;
+	
 	
 	@Autowired
 	AuthentificationFacade authentificationFacade;
@@ -145,9 +147,26 @@ public class StudentController {
 	public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
 		TeachingUnit tu = tuRepository.findOne(codeTU);
 		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		
+		List<DetailResultService> detailRes = new ArrayList<DetailResultService>();
+		DetailResultService tmpLine;
+		
+		for (Component compo : tu.getComponents()) {
+			tmpLine = new DetailResultService();
+			
+			tmpLine.setTypeExam(compo.getExam().getTypeExam());
+			tmpLine.setScore(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getScore());
+			tmpLine.setWeight(compo.getWeight());
+			tmpLine.setDateObt(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getDateObtened());
+		
+			detailRes.add(tmpLine);
+		}
 
 		ModelAndView mav = new ModelAndView("detailRes");
-		mav.addObject("tu", tu);
+		mav.addObject("tuname", tu.getName());
+		
+		mav.addObject("detailRes", detailRes);
+		
 		mav.addObject("studyear", student);
 		
 		return mav;

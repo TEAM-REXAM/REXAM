@@ -17,17 +17,17 @@
 
 <body>
 
-	<%@include file="menu_student.jsp" %>
+	<%@include file="menu_student.jsp"%>
 	<div class="container">
 
 		<div class="starter-template">
 			<div class="page-header">
-			<h1>Rexam</h1>
+				<h1>Rexam</h1>
 
-			<h2>
-				<c:out value="Détail des notes -- ${tu.name}" />
-			</h2>
-		</div>
+				<h2>
+					<c:out value="Détail des notes -- ${tuname}" />
+				</h2>
+			</div>
 
 			<div class="avg_details">
 
@@ -55,15 +55,13 @@
 						</tr>
 					</thead>
 
-					<c:forEach items="${tu.components}" var="compo">
+					<c:forEach items="${detailRes}" var="line">
 
 						<tr>
-							<td><c:out value="${compo.exam.typeExam}" /></td>
-							<td><c:out
-									value="${compo.exam.getResultByStudentYear(studyear).score}" /></td>
-							<td><c:out value="${compo.weight}" /></td>
-							<td><c:out
-									value="${compo.exam.getResultByStudentYear(studyear).dateObtened}" /></td>
+							<td><c:out value="${line.typeExam}" /></td>
+							<td><c:out value="${line.score}" /></td>
+							<td><c:out value="${line.weight}" /></td>
+							<td><c:out value="${line.dateObt}" /></td>
 						</tr>
 
 					</c:forEach>
