@@ -12,6 +12,7 @@ import com.rexam.dao.TeachingUnitRepository;
 import com.rexam.model.TeachingUnit;
 
 @Controller
+@RequestMapping("/rexam")
 public class SearchController {
 	
 	@Autowired TeachingUnitRepository tuRep;
@@ -19,11 +20,14 @@ public class SearchController {
 	@RequestMapping(value="/search")
 	public ModelAndView Search(@RequestParam(required = false) String searchTerm) {
 	    ModelAndView mav = new ModelAndView("search");
-	    mav.addObject("searchTerm", searchTerm);
+	    String searchLower = searchTerm.trim().toLowerCase();
+	    List<TeachingUnit> results = null;
 	    
-	    List<TeachingUnit> results = tuRep.findDistinctByDisciplineOrName(searchTerm.trim().toLowerCase());
+	    if (!searchLower.equals(""))
+	    	results = tuRep.findDistinctByDisciplineOrName(searchLower); 
+	    
+	    mav.addObject("searchTerm", searchTerm);
 	    mav.addObject("searchResults", results);      
-
 	    return mav;
 	}
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -26,10 +25,18 @@
 				<h2>Résultats de la recherche pour ${searchTerm } :</h2>
 			</div>
 			<ul class="list-group">
-				<c:forEach items="${searchResults}" var="result">
-					<li class="list-group-item"><c:out
-							value="${result.name} (${result.discipline})" /></li>
-				</c:forEach>
+				<c:if test="${not empty searchResults}">
+					<c:forEach items="${searchResults}" var="result">
+						<li class="list-group-item"><c:out
+								value="${result.name} (${result.discipline})" /></li>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty searchResults}">
+					<div class="alert alert-danger">
+						<strong>Erreur:</strong> Aucun résultat trouvé !
+					</div>
+				</c:if>
+
 			</ul>
 		</div>
 	</div>

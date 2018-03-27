@@ -27,7 +27,7 @@
 <%-- 					value="Connecté en tant que ${student.firstName} ${student.lastName}" /> --%>
 			</p>
 
-			<form class="navbar-form navbar-left" action="/search" method="get">
+			<form class="navbar-form navbar-left" action="/rexam/search" method="get">
 				<div class="input-group">
 					<input name="searchTerm" type="text" class="form-control"
 						placeholder="Rechercher...">
