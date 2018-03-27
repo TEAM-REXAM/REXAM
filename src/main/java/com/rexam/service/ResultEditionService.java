@@ -26,14 +26,24 @@ public class ResultEditionService {
 
     @Autowired
     ComponentRepository cRepository;
-    
-    
-    public void computeAvg(Exam exam){
+
+    public void computeAvg(Exam exam) {
         for (Component c : cRepository.findByExam(exam)) {
             for (TeachingUnit tu : tuRepository.findByComponent(c.getId())) {
                 for (Registration reg : regRepository.findByIdCodeTeachingUnit(tu.getCode())) {
                     rRepository.computeAvg(tu.getCode(), reg.getStudentYear().getId().getId(),
                             reg.getStudentYear().getId().getYear());
+                }
+            }
+        }
+    }
+
+    public void setStatus(String status, Exam exam) {
+        for (Component c : cRepository.findByExam(exam)) {
+            for (TeachingUnit tu : tuRepository.findByComponent(c.getId())) {
+                for (Registration reg : regRepository.findByIdCodeTeachingUnit(tu.getCode())) {
+                    rRepository.setStatus(tu.getCode(), reg.getStudentYear().getId().getId(),
+                            reg.getStudentYear().getId().getYear(), status);
                 }
             }
         }

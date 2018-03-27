@@ -10,7 +10,7 @@
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 
-				<li><a href="/admin/">Liste des UE à noter</a></li>
+				<li><a href="/admin/showTU">Liste des UE à noter</a></li>
 
 			</ul>
 

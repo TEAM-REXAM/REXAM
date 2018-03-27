@@ -26,6 +26,12 @@ public interface ResultRepository extends CrudRepository<Result, IdResult> {
             + " and student_year_year = ?3) "
             + "where teaching_unit_code=?1 and student_year_id = ?2 and student_year_year = ?3",nativeQuery = true)
     public void computeAvg(String tu_code, Integer sy_id, Integer sy_y);
+    
+    @Transactional
+    @Modifying
+    @Query(value="update Registration set status"
+            + "=?4 where teaching_unit_code=?1 and student_year_id = ?2 and student_year_year = ?3",nativeQuery = true)
+    public void setStatus(String tu_code, Integer sy_id, Integer sy_y, String status);
 
     
     public Result findByExamAndStudentYear(Exam exam, StudentYear studentYear);

@@ -23,7 +23,10 @@
 
 <body>
 
-	<%@include file="menu_student.jsp"%>
+<c:choose>
+<c:when test=""><%@include file="menu_student.jsp"%></c:when> <c:otherwise><%@include file="menu_admin.jsp"%></c:otherwise>
+</c:choose>
+	
 	<div class="container">
 
 		<div class="starter-template">
@@ -55,7 +58,9 @@
 											<td><c:out value="${tu.creditValue}" /></td>
 											<td><a href="/rexam/showExams?code=${tu.code }">Détail
 													des épreuves</a></td>
-											<td><a href="/rexam/registration?code=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
+													<c:if test="">
+											<td><a href="/rexam/registration?exam=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
+											</c:if>
 										</tr>
 
 									</c:if>
