@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,12 +10,14 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	href="//code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css">
 </head>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-confirmation/1.0.7/bootstrap-confirmation.min.js"></script>
 
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -24,18 +25,26 @@
 
 <body>
 
+	<c:choose>
+		<c:when test="${role.equals('admin')}"><%@include
+				file="menu_admin.jsp"%></c:when>
+		<c:otherwise><%@include file="menu_student.jsp"%></c:otherwise>
 
-	<%@include file="menu_student.jsp"%>
-
+	</c:choose>
 
 	<div class="container">
 
 		<div class="starter-template">
 			<div class="page-header">
-			<h1>Rexam</h1>
+				<h1>Rexam</h1>
 
-			<h2>Liste des UE par discipline :</h2>
-		</div>
+				<h2>
+					Liste des UE par discipline
+					<c:if test="${role.equals('admin')}">(ayants des inscriptions) </c:if>
+					:
+				</h2>
+			</div>
+			
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
@@ -43,15 +52,17 @@
 						<c:out value="${discipline}" />
 					</h3>
 
-					<table id="tu${i.index}"	class="unitsTable table table-hover">
-						<thead>
-							<tr>
-								<th>Nom</th>
-								<th>Nb crédit</th>
-								<th>Épreuves</th>
-								<th>Actions</th>
-							</tr>
-						
+					<div>
+						<table id="tu${i.index}" class="unitsTable table table-hover">
+							<thead>
+								<tr>
+									<th>Nom</th>
+									<th>Nb crédit</th>
+									<th>Épreuves</th>
+									<c:if test="${!role.equals('admin')}">
+										<th>Actions</th>
+									</c:if>
+								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${tuList}" var="tu">
@@ -61,17 +72,27 @@
 											<td><c:out value="${tu.creditValue}" /></td>
 											<td><a href="/rexam/showExams?code=${tu.code }">Détail
 													des épreuves</a></td>
-											<td><a href="/rexam/registration?code=${tu.code }"><button class="btn-primary">S'inscrire</button></a></td>
+											<c:if test="${!role.equals('admin')}">
+												<td><a data-toggle="confirmation"
+													data-title="Confirmer l'inscription ?"
+													data-btn-ok-label="Confirmer" 
+													data-btn-ok-class="btn-info"
+													data-btn-cancel-label="Retour"
+													href="/rexam/registration?code=${tu.code }"><button
+															class="btn-primary">S'inscrire</button></a></td>
+											</c:if>
 										</tr>
 
 									</c:if>
 								</c:forEach>
 							</tbody>
 						</table>
-				
+				</div>
 				</c:forEach>
+			
 			</div>
-		</div>
+			</div>
+	
 	</div>
 	<script>
 		$(function() {
@@ -81,6 +102,10 @@
 				heightStyle : "content"
 
 			});
+		});
+
+		$('[data-toggle=confirmation]').confirmation({
+			rootSelector : '[data-toggle=confirmation]'
 		});
 	</script>
 </body>

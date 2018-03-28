@@ -19,7 +19,10 @@
 
 <body>
 
-		<%@include file="menu_student.jsp" %>
+		<c:choose>
+<c:when test="${role.equals('admin')}"><%@include file="menu_admin.jsp"%></c:when> <c:otherwise><%@include file="menu_student.jsp"%></c:otherwise>
+
+</c:choose>
 	<div class="container">
 
 		<div class="starter-template">
@@ -34,12 +37,18 @@
 						<th>Épreuve</th>
 						<th>Type épreuve</th>
 						<th>Poids</th>
+						<c:if test="${role.equals('admin')}">
+											<td>Action</td>
+											</c:if>
 					</tr>
 						<c:forEach items="${teachingUnit.components }" var="component">
 							<tr>
 								<td><c:out value="${component.exam.code}" /></td>
 								<td><c:out value="${component.exam.typeExam}" /></td>
 								<td><c:out value="${component.weight}" /></td>
+								<c:if test="${role.equals('admin')}">
+											<td><a href="/admin/showExamResults?codeExam=${component.exam.code}"><button class="btn-primary">Noter</button></a></td>
+											</c:if>
 							</tr>
 
 						</c:forEach>

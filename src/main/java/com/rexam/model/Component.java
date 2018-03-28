@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Component {
@@ -17,6 +19,8 @@ public class Component {
 	@OneToOne(cascade = {CascadeType.ALL})
 	private Exam exam;
 	
+	@NotNull
+    @Min(value = 1, message = "Le poids doit être supérieur à 0")
 	private int weight;
 
 	public int getWeight() {

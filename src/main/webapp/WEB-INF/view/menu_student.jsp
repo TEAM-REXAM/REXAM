@@ -2,9 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-dark" style="background-color: #e3f2fd;">
 	<div class="container">
 		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#navbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
 			<a class="navbar-brand" href="/rexam/showTeachingUnits">Rexam</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
@@ -23,8 +28,7 @@
 			</p>
 
 			<p class="navbar-text">
-<%-- 				<c:out --%>
-<%-- 					value="Connecté en tant que ${student.firstName} ${student.lastName}" /> --%>
+				<c:out value="${user.firstname} ${user.lastname}" />
 			</p>
 
 			<form class="navbar-form navbar-left" action="/rexam/search" method="get">
@@ -38,15 +42,14 @@
 					</div>
 				</div>
 			</form>
-			<form class="navbar-form" id="logoutForm" method="POST"
-				action="${contextPath}/logout">
+			<form id="logoutForm" method="POST" action="${contextPath}/logout">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
 			</form>
-			<a class="nav navbar-nav"
-				onclick="document.forms['logoutForm'].submit()"><button
-					class="btn btn-danger">Logout</button></a>
-
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" onclick="document.forms['logoutForm'].submit()"><span
+						class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+			</ul>
 		</div>
 	</div>
 </nav>

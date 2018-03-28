@@ -1,35 +1,36 @@
 package com.rexam.controller;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rexam.dao.ComponentRepository;
+import com.rexam.dao.AdminRepository;
 import com.rexam.dao.CurrentYearRepository;
 import com.rexam.dao.ExamRepository;
 import com.rexam.dao.RegistrationRepository;
 import com.rexam.dao.ResultRepository;
-import com.rexam.dao.StudentRepository;
-import com.rexam.dao.TeachingUnitRepository;
-import com.rexam.model.Component;
 import com.rexam.model.CurrentYear;
-import com.rexam.model.Exam;
-import com.rexam.model.IdRegistration;
-import com.rexam.model.IdResult;
-import com.rexam.model.IdStudentYear;
-import com.rexam.model.Registration;
 import com.rexam.model.Result;
-import com.rexam.model.Student;
-import com.rexam.model.StudentYear;
 import com.rexam.model.TeachingUnit;
+import com.rexam.model.User;
+import com.rexam.service.AuthentificationFacade;
+import com.rexam.service.RegistrationService;
+import com.rexam.service.ResultEditionService;
 
 @Controller
 @RequestMapping("/admin")
@@ -39,195 +40,130 @@ public class ResultController {
     ResultRepository rRepository;
 
     @Autowired
+    ResultEditionService resService;
+
+    @Autowired
+    RegistrationService regService;
+
+    @Autowired
+    CurrentYearRepository yearRepository;
+
+    @Autowired
     RegistrationRepository regRepository;
 
     @Autowired
-    StudentRepository sRepository;
+    ExamRepository exRepository;
+    @Autowired
+    AdminRepository adminRepository;
+    @Autowired
+    AuthentificationFacade authentificationFacade;
 
-    @Autowired
-    TeachingUnitRepository tuRepository;
+    @RequestMapping("/showTU")
+    public ModelAndView showTU(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) {
 
-    @Autowired
-    ExamRepository eRepository;
+        String role = "student";
 
-    @Autowired
-    ComponentRepository cRepository;
-    
-    @Autowired
-    CurrentYearRepository yearRepository;
-    
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if (auth.getAuthority().equals("admin")) {
+                role = "admin";
+            }
+        }
+
+        List<String> disciplines = regRepository.findDisciplines();
+        List<TeachingUnit> tuList = regRepository.findTeachingUnits();
+
+        ModelAndView mav = new ModelAndView("teachingUnits");
+        mav.addObject("disciplines", disciplines);
+        mav.addObject("tuList", tuList);
+        mav.addObject("role", role);
+        return mav;
+    }
+
     @RequestMapping("/showExamResults")
-    public ModelAndView showExamResults(@ModelAttribute(value = "results") Results examResults) {
+    public ModelAndView showExamResults(@ModelAttribute(value = "results") Results re,
+            HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) {
+
+        String role = "student";
+
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if (auth.getAuthority().equals("admin")) {
+                role = "admin";
+            }
+        }
+        LocalDate current_date = LocalDate.now();
+
+        for (Result r : re.getExamResults()) {
+            r.setDateObtened(current_date.toString());
+        }
 
         ModelAndView mav = new ModelAndView("examResults");
+        mav.addObject("results", re);
+        mav.addObject("role", role);
+
         return mav;
     }
 
     @RequestMapping("/editResults")
-    public ModelAndView showExams(@ModelAttribute(value = "results") Results re,
-            BindingResult result) {
+    public ModelAndView processEdition(
+            @RequestParam(value = "codeExam", required = false) String exam,
+            @ModelAttribute(value = "results") @Valid Results re, BindingResult result) {
 
         if (!result.hasErrors()) {
+            for (Result res : re.getExamResults())
+                System.out.println(res.getStudentYear().getId().getYear() + " ");
+
             rRepository.save(re.getExamResults());
+            resService.updateStatus(re.getExamResults().get(0).getExam());
+            resService.computeAvg(re.getExamResults().get(0).getExam());
+            
+            
+            
+            return new ModelAndView("redirect:/admin/showTU");
         }
 
-        for (Component c : cRepository.findByExam(re.getExamResults().get(0).getExam())) {
-            for (TeachingUnit tu : tuRepository.findByComponent(c.getId())) {
-                for (Registration reg : regRepository.findByIdCodeTeachingUnit(tu.getCode())) {
-                    rRepository.computeAvg(tu.getCode(), reg.getStudentYear().getId().getId(),
-                            reg.getStudentYear().getId().getYear());
-                }
-            }
+        else {
+            ModelAndView mav = new ModelAndView("redirect:/admin/showExamResults?codeExam=" + exam);
+            mav.addObject("ErrorMessage", "Les notes doivent être entre 0 et 20");
+            return mav;
         }
-
-        return new ModelAndView("index");
     }
 
     @RequestMapping("/initData")
     public ModelAndView addTeachingUnits(@ModelAttribute(value = "results") Results examResults) {
-        TeachingUnit teachingUnit = tuRepository.findOne("ENSPHCU89");
-        Student student = sRepository.findOne("srowlands0@vimeo.com");
+        try {
+            regService.registration("srowlands0@vimeo.com", "ENSPHCU89");
+            regService.registration("srowlands0@vimeo.com", "ENSPHCU97");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-        IdStudentYear idStudentYear = new IdStudentYear();
-        idStudentYear.setYear(2019);
-        idStudentYear.setId(1);
-
-        StudentYear studentYear = new StudentYear();
-        studentYear.setStudent(student);
-        studentYear.setId(idStudentYear);
-        List<Registration> list1 = new ArrayList<Registration>();
-
-        IdRegistration idRegistration = new IdRegistration();
-        idRegistration.setIdStudentYear(studentYear.getId());
-        idRegistration.setCodeTeachingUnit(teachingUnit.getCode());
-
-        Registration registration = new Registration();
-        registration.setStudentYear(studentYear);
-        registration.setStatus("calculable");
-        registration.setId(idRegistration);
-        registration.setTeachingUnit(teachingUnit);
-        list1.add(registration);
-        studentYear.setRegistration(list1);
-        regRepository.save(registration);
-
-        IdResult idResult = new IdResult();
-        idResult.setIdStudentYear(studentYear.getId());
-        idResult.setCodeExam(teachingUnit.getComponents().get(0).getExam().getCode());
-
-        Result r = new Result();
-
-        r.setId(idResult);
-        r.setExam(teachingUnit.getComponents().get(0).getExam());
-        r.setStudentYear(studentYear);
-        r.setScore(0.0);
-        rRepository.save(r);
-
-        idResult = new IdResult();
-        idResult.setIdStudentYear(studentYear.getId());
-        idResult.setCodeExam(teachingUnit.getComponents().get(1).getExam().getCode());
-        r = new Result();
-
-        r.setId(idResult);
-        r.setExam(teachingUnit.getComponents().get(1).getExam());
-        r.setStudentYear(studentYear);
-        r.setScore(0.0);
-
-        rRepository.save(r);
-
-        idResult = new IdResult();
-        idResult.setIdStudentYear(studentYear.getId());
-        idResult.setCodeExam(teachingUnit.getComponents().get(2).getExam().getCode());
-        r = new Result();
-
-        r.setId(idResult);
-        r.setExam(teachingUnit.getComponents().get(2).getExam());
-        r.setStudentYear(studentYear);
-        r.setScore(0.0);
-
-        rRepository.save(r);
-
-        ModelAndView mav = new ModelAndView("redirect:admin/showExamResults");
-        return mav;
-    }
-    
-    @RequestMapping("/initData2")
-    public ModelAndView addTeachingUnits2(@ModelAttribute(value = "results") Results examResults) {
-        TeachingUnit teachingUnit = tuRepository.findOne("ENSPHCU97");
-        Student student = sRepository.findOne("srowlands0@vimeo.com");
-
-        IdStudentYear idStudentYear = new IdStudentYear();
-        idStudentYear.setYear(2019);
-        idStudentYear.setId(1);
-
-        StudentYear studentYear = new StudentYear();
-        studentYear.setStudent(student);
-        studentYear.setId(idStudentYear);
-        List<Registration> list1 = new ArrayList<Registration>();
-
-        IdRegistration idRegistration = new IdRegistration();
-        idRegistration.setIdStudentYear(studentYear.getId());
-        idRegistration.setCodeTeachingUnit(teachingUnit.getCode());
-
-        Registration registration = new Registration();
-        registration.setStudentYear(studentYear);
-        registration.setStatus("calculable");
-        registration.setId(idRegistration);
-        registration.setTeachingUnit(teachingUnit);
-        list1.add(registration);
-        studentYear.setRegistration(list1);
-        regRepository.save(registration);
-
-        IdResult idResult = new IdResult();
-        idResult.setIdStudentYear(studentYear.getId());
-        idResult.setCodeExam(teachingUnit.getComponents().get(0).getExam().getCode());
-
-        Result r = new Result();
-
-        r.setId(idResult);
-        r.setExam(teachingUnit.getComponents().get(0).getExam());
-        r.setStudentYear(studentYear);
-        r.setScore(0.0);
-        rRepository.save(r);
-
-        idResult = new IdResult();
-        idResult.setIdStudentYear(studentYear.getId());
-        idResult.setCodeExam(teachingUnit.getComponents().get(1).getExam().getCode());
-        r = new Result();
-
-        r.setId(idResult);
-        r.setExam(teachingUnit.getComponents().get(1).getExam());
-        r.setStudentYear(studentYear);
-        r.setScore(0.0);
-
-        rRepository.save(r);
-
-        idResult = new IdResult();
-        idResult.setIdStudentYear(studentYear.getId());
-        idResult.setCodeExam(teachingUnit.getComponents().get(2).getExam().getCode());
-        r = new Result();
-
-        r.setId(idResult);
-        r.setExam(teachingUnit.getComponents().get(2).getExam());
-        r.setStudentYear(studentYear);
-        r.setScore(0.0);
-
-        rRepository.save(r);
-
-        ModelAndView mav = new ModelAndView("redirect:/admin/showExamResults");
+        ModelAndView mav = new ModelAndView("redirect:/admin/showTU");
         return mav;
     }
 
     @ModelAttribute("results")
-    Results examResutls(@RequestParam(value = "exam", required = false) Exam exam) {
+    Results examResutls(@ModelAttribute("currentYear") Integer currentYear,
+            @RequestParam(value = "codeExam", required = false) String exam, ModelMap model) {
+        if (exam == null)
+            return (Results) model.get("results");
+
         Results re = new Results();
-        re.setExamResults((List<Result>) rRepository
-                .findByExam(tuRepository.findOne("ENSPHCU89").getComponents().get(0).getExam()));
+        re.setExamResults(rRepository.findByExam(exRepository.findOne(exam)));
         return re;
     }
-	@ModelAttribute("currentYear")
-	Integer currentYear() {
-		return ((Collection<CurrentYear>) yearRepository.findAll())
-					.stream().findFirst().get().getYear();
-	}
+
+    @ModelAttribute("currentYear")
+    Integer currentYear() {
+        return ((Collection<CurrentYear>) yearRepository.findAll()).stream().findFirst().get()
+                .getYear();
+    }
+
+    @ModelAttribute("user")
+    User user() {
+        return adminRepository.findByEmail(authentificationFacade.getAuthentication().getName());
+    }
 
 }

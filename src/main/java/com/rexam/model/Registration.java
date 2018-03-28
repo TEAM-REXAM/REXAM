@@ -5,20 +5,10 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
-@NamedStoredProcedureQueries({
-    @NamedStoredProcedureQuery(name = "computeAvg", 
-                               procedureName = "computeAvg",
-                               parameters = {
-                                  @StoredProcedureParameter(mode = ParameterMode.IN, name = "tu_code", type = String.class),
-                                  @StoredProcedureParameter(mode = ParameterMode.IN, name = "sy_id", type = Integer.class),
-                                  @StoredProcedureParameter(mode = ParameterMode.IN, name = "sy_y", type = Integer.class)
-                               })})
 public class Registration {
 
 	@EmbeddedId
@@ -31,7 +21,10 @@ public class Registration {
 	@MapsId("idStudentYear")
 	private StudentYear studentYear;
 
+	@Max(value = 20, message = "La moyenne doit être inférieure ou égale à 20")
+    @Min(value = 0, message = "La moyenne doit être supérieure ou égale à 0")
 	private Double averageScore;
+	
 	private String status;
 
 	public IdRegistration getId() {
