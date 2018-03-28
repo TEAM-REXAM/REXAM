@@ -51,6 +51,7 @@ public class StudentController {
 	RegistrationRepository regRepository;
 	@Autowired
 	CurrentYearRepository yearRepository;
+
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -60,18 +61,50 @@ public class StudentController {
 	public ModelAndView showDisciplines() {
 		List<String> disciplines = tuRepository.findDisciplines();
 		List<TeachingUnit> tuList = tuRepository.findAllByOrderByDisciplineAsc();
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		List<Registration> regs = regRepository.findByStudentYear(student);
 
 		ModelAndView mav = new ModelAndView("teachingUnits");
 		mav.addObject("disciplines", disciplines);
-		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
-		List<Registration> regs = regRepository.findByStudentYear(student);
-		for (int i = 0; i < regs.size(); i++) {
-			for (int j = 0; j < tuList.size(); j++) {
-				if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())) {
+		for(int i = 0; i < regs.size(); i++){
+			for(int j=0; j < tuList.size(); j++) {
+				if(regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode()) 
+						&& regs.get(i).getAverageScore() == null) {
+					tuList.remove(j);
+				}else if(regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
+						&& regs.get(i).getAverageScore() >= 10) {
 					tuList.remove(j);
 				}
 			}
 		}
+		
+/*
+		// Supprime l'UE si on est déja inscrit ou si l'ue a été capitalisé
+		for(int i = 0; i < listStudentYear.size(); i++){
+			regs = regRepository.findByStudentYear(listStudentYear.get(i));
+			// si on est l'année courante, supprime les ues auxquelles on est inscrit
+			if(listStudentYear.get(i).getId().getYear() == currentYear()) {
+				for(int j = 0; j < regs.size(); j++){
+					for(int k=0; k < tuList.size(); k++) {
+
+						if(regs.get(j).getTeachingUnit().getCode().equals(tuList.get(k).getCode()) ) {
+							tuList.remove(k);
+						}
+					}
+				}
+			}
+			else {
+				for(int j = 0; j < regs.size(); j++){
+					for(int k=0; k < tuList.size(); k++) {
+						if(regs.get(j).getTeachingUnit().getCode().equals(tuList.get(k).getCode()) 
+								&& regs.get(j).getAverageScore() >= 10) {
+							tuList.remove(k);
+						}
+					}
+				}
+			}
+		}
+*/
 		mav.addObject("tuList", tuList);
 		return mav;
 	}
@@ -96,38 +129,6 @@ public class StudentController {
 		return mav;
 	}
 
-	@RequestMapping("/addTeachingUnits")
-	public String addTeachingUnits() {
-		TeachingUnit u = new TeachingUnit();
-		u.setCode("UE1");
-		u.setName("Programmation Haskell");
-		u.setDiscipline("Informatique");
-		u.setCreditValue(3);
-		Component c = new Component();
-		c.setId(1);
-		c.setWeight(2);
-		Exam e = new Exam();
-		e.setCode("Epr1Haskell");
-		e.setTypeExam("partiel");
-		c.setExam(e);
-		List<Component> comps = new ArrayList<Component>();
-		comps.add(c);
-		u.setComponents(comps);
-		tuRepository.save(u);
-		TeachingUnit u2 = new TeachingUnit();
-		u2.setCode("UE2");
-		u2.setName("philo");
-		u2.setDiscipline("Lettres");
-		u2.setCreditValue(2);
-		tuRepository.save(u2);
-		TeachingUnit u3 = new TeachingUnit();
-		u3.setCode("UE3");
-		u3.setName("Dictée");
-		u3.setDiscipline("Lettres");
-		u3.setCreditValue(3);
-		tuRepository.save(u3);
-		return "index";
-	}
 
 	@RequestMapping("/regs")
 	public ModelAndView listRegistrations() {
