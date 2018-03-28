@@ -39,10 +39,8 @@ public class StudentControllerTest {
 		 .andExpect(view().name("teachingUnits"))
 		.andExpect(model().attribute("tuList", hasSize(size))
 				 );
-		 // Inscription a une UE, ce lien redirige vers la liste des ues
-		 this.mockMvc.perform(get("/rexam/registration").param("code", code)).andDo(print()).andExpect(status().is3xxRedirection())
-		 .andExpect(redirectedUrl("/rexam/showTeachingUnits"))
-		 .andExpect(model().attribute("tuList", hasSize(size-1)));
+		 
+		 
 		 
 	}
 	
