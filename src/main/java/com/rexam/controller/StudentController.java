@@ -78,6 +78,7 @@ public class StudentController {
 				if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
 						&& regs.get(i).getAverageScore() == null) {
 					tuList.remove(j);
+					--j;
 				}
 			}
 		}
