@@ -1,7 +1,6 @@
 package com.rexam;
 
 import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,11 +30,10 @@ public class StudentControllerTest {
 	@Test
 	@WithMockUser(authorities = { "student"})
 	public void testShowAllUnits() throws Exception {
-		int size = 13;
 
 		 this.mockMvc.perform(get("/rexam/showTeachingUnits")).andDo(print()).andExpect(status().isOk())
 		 .andExpect(view().name("teachingUnits"))
-		.andExpect(model().attribute("tuList", hasSize(size))
+		.andExpect(model().attributeExists("tuList")
 				 );
 		 
 		 

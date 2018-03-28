@@ -1,14 +1,11 @@
 package com.rexam;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +30,10 @@ public class SearchControllerTest {
 	@WithMockUser(authorities = { "student"})
 	public void testSearch() throws Exception {
 		String searchTerm = "st";
-		int size = 4; // nombre d'ue qui contiennent le mot "base"
+
 		this.mockMvc.perform(get("/rexam/showTeachingUnits").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
 		.andExpect(forwardedUrl("/WEB-INF/view/teachingUnits.jsp"))
-		.andExpect(model().attribute("tuList", hasSize(size))
+		.andExpect(model().attributeExists("tuList")
                 );
 	}
 	
@@ -48,12 +45,11 @@ public class SearchControllerTest {
 	public void testSearchWithNoResults() throws Exception {
 		String searchTerm = "aaa";
 		int size = 0; 
-		this.mockMvc.perform(get("/rexam/search").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
-		.andExpect(forwardedUrl("/WEB-INF/view/search.jsp"))
-		.andExpect(view().name("search"))
-		.andExpect(model().attribute("searchTerm",is(searchTerm)))
-		.andExpect(model().attributeExists("searchResults"))
-		.andExpect(model().attribute("searchResults", hasSize(size))
+		
+		this.mockMvc.perform(get("/rexam/showTeachingUnits").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
+        .andExpect(forwardedUrl("/WEB-INF/view/teachingUnits.jsp"))
+        .andExpect(model().attributeExists("tuList"))
+		.andExpect(model().attribute("tuList", hasSize(size))
 				);
 	}
 	
@@ -64,11 +60,9 @@ public class SearchControllerTest {
 	@WithMockUser(authorities = { "student"})
 	public void testSearchWhitespaces() throws Exception {
 		String searchTerm = "     ";
-		this.mockMvc.perform(get("/rexam/search").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
-		.andExpect(forwardedUrl("/WEB-INF/view/search.jsp"))
-		.andExpect(view().name("search"))
-		.andExpect(model().attribute("searchTerm",is(searchTerm)))
-		.andExpect(model().attribute("searchResults", is(IsNull.nullValue()))
+		this.mockMvc.perform(get("/rexam/showTeachingUnits").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
+        .andExpect(forwardedUrl("/WEB-INF/view/teachingUnits.jsp"))
+        .andExpect(model().attributeExists("tuList")
 				);
 	}
 
