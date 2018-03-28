@@ -40,35 +40,35 @@ public class ResultEditionServiceTest {
 	TeachingUnit teachingUnit = new TeachingUnit();
 	User student = new Student();
 
-	@Before
-	public void setUp() {
+    @Before
+    public void setUp() {
 
-	}
+    }
 
-	@Test
-	public void saveTest() {
+    @Test
+    public void saveTest() {
 
-		assertNotNull(teachingUnitRepository.findOne("ENSCHCU50"));
-	}
+        assertNotNull(teachingUnitRepository.findOne("ENSPHCU89"));
+    }
 
-	@Test
-	public void findOneStudentTest() {
-		assertNotNull(studentRepository.findOne("srowlands0@vimeo.com"));
-	}
+    @Test
+    public void findOneStudentTest() {
+        assertNotNull(studentRepository.findOne("srowlands0@vimeo.com"));
+    }
 
-	@Test
-	public void registrationWorkingTest() throws Exception {
-		registrationService.registration("srowlands0@vimeo.com", "ENSCHCU50");
-		registrationService.registration("jhalligan1@dailymail.co.uk", "ENSCHCU50");
-		assertNotNull(registrationRepository.findAll());
-	}
+    @Test
+    public void registrationWorkingTest() throws Exception {
+        registrationService.registration("srowlands0@vimeo.com", "ENSPHCU89");
+        registrationService.registration("rsemper2o@comsenz.com", "ENSPHCU89");
+        assertNotNull(registrationRepository.findAll());
+    }
 
-	@Test(expected = Exception.class)
-	public void registrationWrongTUCode() throws Exception {
-		registrationService.registration("srowlands0@vimeo.com", "ENSCddHCU50");
-	}
-	@Test(expected = Exception.class)
-	public void registrationWrongMail() throws Exception {
-		registrationService.registration("srowlandzfzefzfzfzefs0@vimeo.com", "ENSCHCU50");
-	}
+    @Test(expected = Exception.class)
+    public void registrationWrongTUCode() throws Exception {
+        registrationService.registration("srowlands0@vimeo.com", "inexistant");
+    }
+    @Test(expected = Exception.class)
+    public void registrationWrongMail() throws Exception {
+        registrationService.registration("srowlandzfzefzfzfzefs0@vimeo.com", "ENSPHCU89");
+    }
 }

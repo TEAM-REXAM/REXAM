@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +32,6 @@ public class StudentControllerTest {
 	@WithMockUser(authorities = { "student"})
 	public void testShowAllUnits() throws Exception {
 		int size = 1000;
-		String code = "ENSMABU27";
 
 		 this.mockMvc.perform(get("/rexam/showTeachingUnits")).andDo(print()).andExpect(status().isOk())
 		 .andExpect(view().name("teachingUnits"))
