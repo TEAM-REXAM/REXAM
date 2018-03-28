@@ -30,7 +30,7 @@ public class StudentControllerTest {
     private MockMvc mockMvc;
 	
 	@Test
-	@WithMockUser()
+	@WithMockUser(authorities = { "student"})
 	public void testShowAllUnits() throws Exception {
 		int size = 1000;
 		String code = "ENSMABU27";
