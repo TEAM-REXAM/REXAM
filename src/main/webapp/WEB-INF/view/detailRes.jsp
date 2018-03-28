@@ -30,17 +30,24 @@
 			</div>
 
 			<div class="avg_details">
+				<table class="table">
+					<tr>
+						<td>
+							<strong>Moyenne :</strong>
+							
+							<c:if test="${empty reg.averageScore}">
+								<c:out value="Pas encore déterminée" />
+							</c:if> 
+							<c:if test="${not empty reg.averageScore}">
+								<c:out value="${reg.averageScore}" />
+							</c:if></td>
 
-				<c:if test="${empty reg.averageScore}">
-					<c:out value="Moyenne : Pas encore déterminée" />
-				</c:if>
-
-				<c:if test="${not empty reg.averageScore}">
-					<c:out value="Moyenne : ${reg.averageScore}" />
-				</c:if>
-
-				<c:out value="Status :${reg.status}" />
-
+						<td>
+							<strong>Status :</strong>
+							<c:out value="${reg.status}" />
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div class="exam_details">

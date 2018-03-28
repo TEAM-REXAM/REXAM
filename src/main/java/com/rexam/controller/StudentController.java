@@ -40,168 +40,168 @@ import com.rexam.service.DetailResultService;
 @RequestMapping("/rexam")
 public class StudentController {
 
-    @Autowired
-    TeachingUnitRepository tuRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    StudentYearRepository studYearRepository;
-    @Autowired
-    ResultRepository resultRepository;
-    @Autowired
-    RegistrationRepository regRepository;
-    @Autowired
-    CurrentYearRepository yearRepository;
+	@Autowired
+	TeachingUnitRepository tuRepository;
+	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
+	StudentYearRepository studYearRepository;
+	@Autowired
+	ResultRepository resultRepository;
+	@Autowired
+	RegistrationRepository regRepository;
+	@Autowired
+	CurrentYearRepository yearRepository;
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    AuthentificationFacade authentificationFacade;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	AuthentificationFacade authentificationFacade;
 
-    @RequestMapping("/showTeachingUnits")
-    public ModelAndView showDisciplines(@RequestParam(required = false) String searchTerm) {
+	@RequestMapping("/showTeachingUnits")
+	public ModelAndView showDisciplines(@RequestParam(required = false) String searchTerm) {
 
-        Set<String> disciplines = new HashSet<String>();
-        List<TeachingUnit> tuList;
+		Set<String> disciplines = new HashSet<String>();
+		List<TeachingUnit> tuList;
 
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            String searchLower = searchTerm.trim().toLowerCase();
-            tuList = tuRepository.findDistinctByDisciplineOrName(searchLower);
-        } else
-            tuList = tuRepository.findAllByOrderByDisciplineAsc();
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+			String searchLower = searchTerm.trim().toLowerCase();
+			tuList = tuRepository.findDistinctByDisciplineOrName(searchLower);
+		} else
+			tuList = tuRepository.findAllByOrderByDisciplineAsc();
 
-        StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
-        List<Registration> regs = regRepository.findByStudentYear(student);
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		List<Registration> regs = regRepository.findByStudentYear(student);
 
-        for (int i = 0; i < regs.size(); i++) {
-            for (int j = 0; j < tuList.size(); j++) {
-                if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
-                        && regs.get(i).getAverageScore() == null) {
-                    tuList.remove(j);
-                }
-            }
-        }
+		for (int i = 0; i < regs.size(); i++) {
+			for (int j = 0; j < tuList.size(); j++) {
+				if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
+						&& regs.get(i).getAverageScore() == null) {
+					tuList.remove(j);
+				}
+			}
+		}
 
-        ///////////////////////// ARTHUR CHERI //////////////
-        for (int i = 0; i < tuList.size(); i++) {
-            List<Registration> reg = regRepository.findCapitalizedTu(tuList.get(i).getCode());
-            if (reg != null && !reg.isEmpty()) {
-                tuList.remove(i);
-            }
-        }
+		///////////////////////// ARTHUR CHERI //////////////
+		for (int i = 0; i < tuList.size(); i++) {
+			List<Registration> reg = regRepository.findCapitalizedTu(tuList.get(i).getCode());
+			if (reg != null && !reg.isEmpty()) {
+				tuList.remove(i);
+			}
+		}
 
-        for (TeachingUnit t : tuList) {
-            disciplines.add(t.getDiscipline());
-        }
+		for (TeachingUnit t : tuList) {
+			disciplines.add(t.getDiscipline());
+		}
 
-        ModelAndView mav = new ModelAndView("teachingUnits");
-        mav.addObject("disciplines", disciplines);
-        mav.addObject("tuList", tuList);
-        return mav;
-    }
+		ModelAndView mav = new ModelAndView("teachingUnits");
+		mav.addObject("disciplines", disciplines);
+		mav.addObject("tuList", tuList);
+		return mav;
+	}
 
-    @RequestMapping("/showExams")
-    public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU,
-            HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) {
+	@RequestMapping("/showExams")
+	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU,
+			HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
-        String role = "student";
+		String role = "student";
 
-        for (GrantedAuthority auth : authentication.getAuthorities()) {
-            if (auth.getAuthority().equals("admin")) {
-                role = "admin";
-            }
-        }
-        TeachingUnit tu = tuRepository.findOne(codeTU);
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			if (auth.getAuthority().equals("admin")) {
+				role = "admin";
+			}
+		}
+		TeachingUnit tu = tuRepository.findOne(codeTU);
 
-        ModelAndView mav = new ModelAndView("exams");
-        mav.addObject("teachingUnit", tu);
-        mav.addObject("role", role);
+		ModelAndView mav = new ModelAndView("exams");
+		mav.addObject("teachingUnit", tu);
+		mav.addObject("role", role);
 
-        return mav;
-    }
+		return mav;
+	}
 
-    @RequestMapping("/regs")
-    public ModelAndView listRegistrations() {
+	@RequestMapping("/regs")
+	public ModelAndView listRegistrations() {
 
-        StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
-        List<Registration> regs = regRepository.findByStudentYear(student);
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		List<Registration> regs = regRepository.findByStudentYear(student);
 
-        if (regs == null) {
-            regs = new ArrayList<Registration>();
-        }
+		if (regs == null) {
+			regs = new ArrayList<Registration>();
+		}
 
-        ModelAndView mav = new ModelAndView("regslist");
-        mav.addObject("regs", regs);
+		ModelAndView mav = new ModelAndView("regslist");
+		mav.addObject("regs", regs);
 
-        return mav;
-    }
+		return mav;
+	}
 
-    @RequestMapping("/results")
-    public ModelAndView listResults() {
-        StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
-        List<Registration> regs = regRepository.findByStudentYear(student);
+	@RequestMapping("/results")
+	public ModelAndView listResults() {
+//		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+//		List<Registration> regs = regRepository.findByStudentYear(student);
+		
+		List<Registration> regs = regRepository.findByStudentYear_Student(student());
+		List<StudentYear> studOccurences = studYearRepository.findByStudent(student());
 
-        if (regs == null) {
-            regs = new ArrayList<Registration>();
-        }
+		if (regs == null) {
+			regs = new ArrayList<Registration>();
+		}
 
-        ModelAndView mav = new ModelAndView("reslist");
-        mav.addObject("results", regs);
+		ModelAndView mav = new ModelAndView("reslist");
+		mav.addObject("results", regs);
+		mav.addObject("studOccurences", studOccurences);
 
-        return mav;
-    }
+		return mav;
+	}
 
-    @RequestMapping("/results/{codeTU}")
-    public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
-        TeachingUnit tu = tuRepository.findOne(codeTU);
-        StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+	@RequestMapping("/results/{codeTU}")
+	public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
+		TeachingUnit tu = tuRepository.findOne(codeTU);
+		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
 
-        List<DetailResultService> detailRes = new ArrayList<DetailResultService>();
-        DetailResultService tmpLine;
+		List<DetailResultService> detailRes = new ArrayList<DetailResultService>();
+		DetailResultService tmpLine;
 
-        for (Component compo : tu.getComponents()) {
-            tmpLine = new DetailResultService();
+		for (Component compo : tu.getComponents()) {
+			tmpLine = new DetailResultService();
 
-            tmpLine.setTypeExam(compo.getExam().getTypeExam());
-            tmpLine.setScore(
-                    resultRepository.findByExamAndStudentYear(compo.getExam(), student).getScore());
-            tmpLine.setWeight(compo.getWeight());
-            tmpLine.setDateObt(resultRepository.findByExamAndStudentYear(compo.getExam(), student)
-                    .getDateObtened());
+			tmpLine.setTypeExam(compo.getExam().getTypeExam());
+			tmpLine.setScore(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getScore());
+			tmpLine.setWeight(compo.getWeight());
+			tmpLine.setDateObt(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getDateObtened());
 
-            detailRes.add(tmpLine);
-        }
+			detailRes.add(tmpLine);
+		}
 
-        ModelAndView mav = new ModelAndView("detailRes");
-        mav.addObject("tuname", tu.getName());
+		ModelAndView mav = new ModelAndView("detailRes");
+		mav.addObject("tuname", tu.getName());
 
-        mav.addObject("detailRes", detailRes);
+		mav.addObject("detailRes", detailRes);
 
-        mav.addObject("studyear", student);
+		mav.addObject("studyear", student);
 
-        return mav;
-    }
+		return mav;
+	}
 
-    @ModelAttribute("teachingUnits")
-    Iterable<TeachingUnit> teachingUnits() {
-        return tuRepository.findAll();
-    }
+	@ModelAttribute("teachingUnits")
+	Iterable<TeachingUnit> teachingUnits() {
+		return tuRepository.findAll();
+	}
 
-    @ModelAttribute("currentYear")
-    Integer currentYear() {
-        return ((Collection<CurrentYear>) yearRepository.findAll()).stream().findFirst().get()
-                .getYear();
-    }
+	@ModelAttribute("currentYear")
+	Integer currentYear() {
+		return ((Collection<CurrentYear>) yearRepository.findAll()).stream().findFirst().get().getYear();
+	}
 
-    @ModelAttribute("student")
-    Student student() {
-        return studentRepository.findByEmail(authentificationFacade.getAuthentication().getName());
-    }
+	@ModelAttribute("student")
+	Student student() {
+		return studentRepository.findByEmail(authentificationFacade.getAuthentication().getName());
+	}
 
-    @ModelAttribute("user")
-    User user() {
-        return userRepository.findByEmail(authentificationFacade.getAuthentication().getName());
-    }
+	@ModelAttribute("user")
+	User user() {
+		return userRepository.findByEmail(authentificationFacade.getAuthentication().getName());
+	}
 
 }
