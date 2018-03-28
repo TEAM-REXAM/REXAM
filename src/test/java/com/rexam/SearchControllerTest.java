@@ -32,15 +32,12 @@ public class SearchControllerTest {
 	@Test
 	@WithMockUser(authorities = { "student"})
 	public void testSearch() throws Exception {
-		String searchTerm = "base";
-		int size = 15; // nombre d'ue qui contiennent le mot "base"
-		this.mockMvc.perform(get("/rexam/search").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
-		.andExpect(forwardedUrl("/WEB-INF/view/search.jsp"))
-		.andExpect(view().name("search"))
-		.andExpect(model().attribute("searchTerm",is(searchTerm)))
-		.andExpect(model().attributeExists("searchResults"))
-		.andExpect(model().attribute("searchResults", hasSize(size))
-				);
+		String searchTerm = "st";
+		int size = 4; // nombre d'ue qui contiennent le mot "base"
+		this.mockMvc.perform(get("/rexam/showTeachingUnits").param("searchTerm", searchTerm)).andDo(print()).andExpect(status().isOk())
+		.andExpect(forwardedUrl("/WEB-INF/view/teachingUnits.jsp"))
+		.andExpect(model().attribute("tuList", hasSize(size))
+                );
 	}
 	
 	/*

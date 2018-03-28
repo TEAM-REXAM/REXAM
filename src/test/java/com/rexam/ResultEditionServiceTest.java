@@ -18,7 +18,6 @@ import com.rexam.model.Student;
 import com.rexam.model.TeachingUnit;
 import com.rexam.model.User;
 import com.rexam.service.RegistrationService;
-import com.rexam.service.ResultEditionService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -32,8 +31,8 @@ public class ResultEditionServiceTest {
 	@Autowired
 	private StudentRepository studentRepository;
 	
-	@Autowired
-	private ResultEditionService resService;
+//	@Autowired
+//	private ResultEditionService resService;
 
 	@Autowired
 	private RegistrationService registrationService;

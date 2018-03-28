@@ -31,7 +31,7 @@ public class StudentControllerTest {
 	@Test
 	@WithMockUser(authorities = { "student"})
 	public void testShowAllUnits() throws Exception {
-		int size = 1000;
+		int size = 13;
 
 		 this.mockMvc.perform(get("/rexam/showTeachingUnits")).andDo(print()).andExpect(status().isOk())
 		 .andExpect(view().name("teachingUnits"))
@@ -55,7 +55,7 @@ public class StudentControllerTest {
 	@Test
 	@WithMockUser(authorities = { "student"})
 	public void testShowExams() throws Exception {
-		String code = "ENSMABU27";
+		String code = "ENSPHCU89";
 		 this.mockMvc.perform(get("/rexam/showExams").param("code", code)).andDo(print()).andExpect(status().isOk())
 		  .andExpect(forwardedUrl("/WEB-INF/view/exams.jsp"))
 		  .andExpect(view().name("exams"))
