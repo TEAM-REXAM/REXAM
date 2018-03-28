@@ -84,9 +84,10 @@ public class StudentController {
 
 		///////////////////////// ARTHUR CHERI //////////////
 		for (int i = 0; i < tuList.size(); i++) {
-			List<Registration> reg = regRepository.findCapitalizedTu(tuList.get(i).getCode());
+			List<Registration> reg = regRepository.findCapitalizedTu(tuList.get(i));
 			if (reg != null && !reg.isEmpty()) {
 				tuList.remove(i);
+				--i;
 			}
 		}
 

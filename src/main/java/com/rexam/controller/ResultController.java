@@ -117,9 +117,7 @@ public class ResultController {
             rRepository.save(re.getExamResults());
             resService.updateStatus(re.getExamResults().get(0).getExam());
             resService.computeAvg(re.getExamResults().get(0).getExam());
-            
-            
-            
+
             return new ModelAndView("redirect:/admin/showTU");
         }
 
@@ -142,6 +140,23 @@ public class ResultController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        ModelAndView mav = new ModelAndView("redirect:/admin/showTU");
+        return mav;
+    }
+
+    @RequestMapping("/changeCurrentYear")
+    public ModelAndView changeCurrentYear(
+            @RequestParam(value = "year", required = false) Integer year,
+            @ModelAttribute(value = "results") Results examResults) {
+        
+        if (year != null)
+            try {
+                yearRepository.updateYear(year);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         ModelAndView mav = new ModelAndView("redirect:/admin/showTU");
         return mav;

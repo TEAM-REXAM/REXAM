@@ -28,7 +28,7 @@ public interface RegistrationRepository extends CrudRepository<Registration, IdR
 	@Query(value="select DISTINCT tu.discipline from CurrentYear cy, Registration reg, TeachingUnit tu where reg.teachingUnit = tu and reg.studentYear.id.year = cy.year")
     public List<String> findDisciplines();
 	
-	@Query(value="select * from registration where teaching_unit_code =?1 and average_score>=10 ;",nativeQuery=true)
-	public List<Registration> findCapitalizedTu(String tu_code);
+	@Query(value="select r from Registration r where teachingUnit =?1 and averageScore>=10")
+	public List<Registration> findCapitalizedTu(TeachingUnit tu);
 	
 }
