@@ -2,7 +2,9 @@ package com.rexam.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,48 +60,42 @@ public class StudentController {
 
     @RequestMapping("/showTeachingUnits")
     public ModelAndView showDisciplines(@RequestParam(required = false) String searchTerm) {
-        List<String> disciplines = tuRepository.findDisciplines();
+
+        Set<String> disciplines = new HashSet<String>();
         List<TeachingUnit> tuList;
-        
+
         if (searchTerm != null && !searchTerm.isEmpty()) {
             String searchLower = searchTerm.trim().toLowerCase();
             tuList = tuRepository.findDistinctByDisciplineOrName(searchLower);
         } else
             tuList = tuRepository.findAllByOrderByDisciplineAsc();
-        
+
         StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
         List<Registration> regs = regRepository.findByStudentYear(student);
 
-        ModelAndView mav = new ModelAndView("teachingUnits");
-        mav.addObject("disciplines", disciplines);
         for (int i = 0; i < regs.size(); i++) {
             for (int j = 0; j < tuList.size(); j++) {
                 if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
                         && regs.get(i).getAverageScore() == null) {
                     tuList.remove(j);
-                } else if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
-                        && regs.get(i).getAverageScore() >= 10) {
-                    tuList.remove(j);
                 }
             }
         }
 
-        /*
-         * // Supprime l'UE si on est déja inscrit ou si l'ue a été capitalisé
-         * for(int i = 0; i < listStudentYear.size(); i++){ regs =
-         * regRepository.findByStudentYear(listStudentYear.get(i)); // si on est
-         * l'année courante, supprime les ues auxquelles on est inscrit
-         * if(listStudentYear.get(i).getId().getYear() == currentYear()) {
-         * for(int j = 0; j < regs.size(); j++){ for(int k=0; k < tuList.size();
-         * k++) {
-         * 
-         * if(regs.get(j).getTeachingUnit().getCode().equals(tuList.get(k).
-         * getCode()) ) { tuList.remove(k); } } } } else { for(int j = 0; j <
-         * regs.size(); j++){ for(int k=0; k < tuList.size(); k++) {
-         * if(regs.get(j).getTeachingUnit().getCode().equals(tuList.get(k).
-         * getCode()) && regs.get(j).getAverageScore() >= 10) {
-         * tuList.remove(k); } } } } }
-         */
+        ///////////////////////// ARTHUR CHERI //////////////
+        for (int i = 0; i < tuList.size(); i++) {
+            List<Registration> reg = regRepository.findCapitalizedTu(tuList.get(i).getCode());
+            if (reg != null && !reg.isEmpty()) {
+                tuList.remove(i);
+            }
+        }
+
+        for (TeachingUnit t : tuList) {
+            disciplines.add(t.getDiscipline());
+        }
+
+        ModelAndView mav = new ModelAndView("teachingUnits");
+        mav.addObject("disciplines", disciplines);
         mav.addObject("tuList", tuList);
         return mav;
     }

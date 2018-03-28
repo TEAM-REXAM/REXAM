@@ -45,6 +45,11 @@
 				</h2>
 			</div>
 			
+			<c:choose><c:when test="${ empty disciplines}">
+			<div class="alert alert-danger">
+						<strong>Erreur:</strong> Aucun résultat trouvé !
+					</div> </c:when>
+					<c:otherwise>
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
@@ -91,6 +96,7 @@
 				</c:forEach>
 			
 			</div>
+			</c:otherwise> </c:choose>
 			</div>
 	
 	</div>
