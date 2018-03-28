@@ -31,6 +31,7 @@ import com.rexam.model.User;
 import com.rexam.service.AuthentificationFacade;
 import com.rexam.service.RegistrationService;
 import com.rexam.service.ResultEditionService;
+import com.rexam.service.Results;
 
 @Controller
 @RequestMapping("/admin")

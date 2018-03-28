@@ -1,4 +1,5 @@
-package com.rexam.controller;
+package com.rexam.service;
+
 
 import java.util.List;
 
