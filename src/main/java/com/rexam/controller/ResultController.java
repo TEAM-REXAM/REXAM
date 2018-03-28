@@ -135,6 +135,9 @@ public class ResultController {
         try {
             regService.registration("srowlands0@vimeo.com", "ENSPHCU89");
             regService.registration("srowlands0@vimeo.com", "ENSPHCU97");
+            regService.registration("rsemper2o@comsenz.com", "ENSPHCU89");
+            regService.registration("rsemper2o@comsenz.com", "ENSPHCU97");
+            regService.registration("jbelhome2p@microsoft.com", "ENASPCU1");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
