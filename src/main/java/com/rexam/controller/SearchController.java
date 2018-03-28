@@ -1,5 +1,6 @@
 package com.rexam.controller;
 
+import java.util.List;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rexam.dao.CurrentYearRepository;
 import com.rexam.dao.TeachingUnitRepository;
+import com.rexam.model.TeachingUnit;
 import com.rexam.dao.UserRepository;
 import com.rexam.model.CurrentYear;
 import com.rexam.model.User;
 import com.rexam.service.AuthentificationFacade;
 
 @Controller
+@RequestMapping("/rexam")
 public class SearchController {
 	@Autowired
 	CurrentYearRepository yearRepository;
@@ -29,12 +32,17 @@ public class SearchController {
 
 	@RequestMapping(value = "/search")
 	public ModelAndView Search(@RequestParam(required = false) String searchTerm) {
-		ModelAndView mav = new ModelAndView("search");
+	    ModelAndView mav = new ModelAndView("search");
+	    String searchLower = searchTerm.trim().toLowerCase();
+	    List<TeachingUnit> results = null;
+	    
+	    if (!searchLower.equals(""))
+	    	results = tuRep.findDistinctByDisciplineOrName(searchLower); 
+	    
+	    mav.addObject("searchTerm", searchTerm);
+	    mav.addObject("searchResults", results);      
+	    return mav;
 
-		mav.addObject("searchTerm", searchTerm);
-		mav.addObject("searchResults", tuRep.findByNameIgnoreCaseContaining(searchTerm.trim()));
-
-		return mav;
 	}
 
 	@ModelAttribute("currentYear")

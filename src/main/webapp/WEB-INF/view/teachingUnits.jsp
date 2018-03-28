@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html lang="fr">
 <head>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -44,11 +44,14 @@
 					:
 				</h2>
 			</div>
+			
 			<div id="accordion">
 				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
 					<h3>
+
 						<c:out value="${discipline}" />
 					</h3>
+
 					<div>
 						<table id="tu${i.index}" class="unitsTable table table-hover">
 							<thead>
@@ -84,10 +87,12 @@
 								</c:forEach>
 							</tbody>
 						</table>
-					</div>
+				</div>
 				</c:forEach>
+			
 			</div>
-		</div>
+			</div>
+	
 	</div>
 	<script>
 		$(function() {
@@ -95,6 +100,7 @@
 				collapsible : true,
 				active : false,
 				heightStyle : "content"
+
 			});
 		});
 
