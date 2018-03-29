@@ -44,61 +44,70 @@
 					:
 				</h2>
 			</div>
-			
-			<c:choose><c:when test="${ empty disciplines}">
-			<div class="alert alert-danger">
-						<strong>Erreur:</strong> Aucun résultat trouvé !
-					</div> </c:when>
-					<c:otherwise>
-			<div id="accordion">
-				<c:forEach items="${disciplines}" var="discipline" varStatus="i">
-					<h3>
+			<c:if test="${not empty msg}">
+				<div class="alert alert-${alert} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<strong>${msg}</strong>
+				</div>
+			</c:if>
+			<c:choose>
+				<c:when test="${ empty disciplines}">
+					<div class="alert alert-danger">Aucun résultat trouvé !</div>
+				</c:when>
+				<c:otherwise>
+					<div id="accordion">
+						<c:forEach items="${disciplines}" var="discipline" varStatus="i">
+							<h3>
 
-						<c:out value="${discipline}" />
-					</h3>
+								<c:out value="${discipline}" />
+							</h3>
 
-					<div>
-						<table id="tu${i.index}" class="unitsTable table table-hover">
-							<thead>
-								<tr>
-									<th>Nom</th>
-									<th>Nb crédit</th>
-									<th>Épreuves</th>
-									<c:if test="${!role.equals('admin')}">
-										<th>Actions</th>
-									</c:if>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${tuList}" var="tu">
-									<c:if test="${discipline==tu.discipline }">
+							<div>
+								<table id="tu${i.index}" class="unitsTable table table-hover">
+									<thead>
 										<tr>
-											<td><c:out value="${tu.name}" /></td>
-											<td><c:out value="${tu.creditValue}" /></td>
-											<td><a href="/rexam/showExams?code=${tu.code }">Détail
-													des épreuves</a></td>
+											<th>Nom</th>
+											<th>Nb crédit</th>
+											<th>Épreuves</th>
 											<c:if test="${!role.equals('admin')}">
-												<td><a data-toggle="confirmation"
-													data-title="Confirmer l'inscription ?"
-													data-btn-ok-label="Confirmer" 
-													data-btn-ok-class="btn-info"
-													data-btn-cancel-label="Retour"
-													href="/rexam/registration?code=${tu.code }"><button
-															class="btn-primary">S'inscrire</button></a></td>
+												<th>Actions</th>
 											</c:if>
 										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${tuList}" var="tu">
+											<c:if test="${discipline==tu.discipline }">
+												<tr>
+													<td><c:out value="${tu.name}" /></td>
+													<td><c:out value="${tu.creditValue}" /></td>
+													<td><a href="/rexam/showExams?code=${tu.code }">Détail
+															des épreuves</a></td>
+													<c:if test="${!role.equals('admin')}">
+														<td><a data-toggle="confirmation"
+															data-title="Confirmer l'inscription ?"
+															data-btn-ok-label="Confirmer"
+															data-btn-ok-class="btn-info"
+															data-btn-cancel-label="Retour"
+															href="/rexam/registration?code=${tu.code }"><button
+																	class="btn-primary">S'inscrire</button></a></td>
+													</c:if>
+												</tr>
 
-									</c:if>
-								</c:forEach>
-							</tbody>
-						</table>
-				</div>
-				</c:forEach>
-			
-			</div>
-			</c:otherwise> </c:choose>
-			</div>
-	
+											</c:if>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</c:forEach>
+
+					</div>
+				</c:otherwise>
+			</c:choose>
+		</div>
+
 	</div>
 	<script>
 		$(function() {

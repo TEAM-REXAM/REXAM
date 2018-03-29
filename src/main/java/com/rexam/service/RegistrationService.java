@@ -39,17 +39,16 @@ public class RegistrationService {
 	private ResultRepository resultRepository;
 	@Autowired
 	private CurrentYearRepository currentYearRepository;
-	
 
-	
 	/**
 	 * This method set a registration for the student on the teaching unit
 	 * Generates empty result for each exam in the teaching unit
+	 * 
 	 * @param email
 	 * @param codeUe
 	 * @throws Exception
 	 */
-	public void registration(String email, String codeUe) throws Exception{
+	public void registration(String email, String codeUe) throws Exception {
 
 		TeachingUnit teachingUnit = teachingUnitRepository.findOne(codeUe);
 		if (teachingUnit == null) {
@@ -59,16 +58,27 @@ public class RegistrationService {
 		if (student == null) {
 			throw new Exception("Mauvais mail");
 		}
+		
+		List<Registration> regCheck = registrationRepository.findSubscribedTu(teachingUnit, student);
+		if (regCheck != null && !regCheck.isEmpty()){
+			throw new Exception("Déja inscrit");
+		}
+		List<Registration> regList = registrationRepository.findCapitalizedTu(teachingUnit,student);
+			if (regList != null && !regList.isEmpty()) {
+				throw new Exception("Déja capitalisée");
+		}
+		
+			
 		IdStudentYear ids = new IdStudentYear();
-		//Find the first element of current_year table aka the current year omg
+		// Find the first element of current_year table aka the current year omg
 		int year = ((Collection<CurrentYear>) currentYearRepository.findAll()).stream().findFirst().get().getYear();
 		ids.setYear(year);
 		ids.setId(student.getId());
-		
+
 		StudentYear sYear = new StudentYear();
 		sYear.setStudent(student);
 		sYear.setId(ids);
-		
+
 		IdRegistration idr = new IdRegistration();
 		idr.setCodeTeachingUnit(codeUe);
 		idr.setIdStudentYear(ids);
