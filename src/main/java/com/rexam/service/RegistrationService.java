@@ -100,7 +100,6 @@ public class RegistrationService {
 			res.setStudentYear(sYear);
 			res.setExam(component.getExam());
 			res.setScore(0.0);
-			System.out.println("+++++++++++++ "+ res.getExam().getCode());
 			resultRepository.save(res);
 		}
 

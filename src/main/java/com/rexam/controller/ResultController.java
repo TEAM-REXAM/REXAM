@@ -113,9 +113,16 @@ public class ResultController {
 
         if (!result.hasErrors()) {
             for (Result res : re.getExamResults())
-                System.out.println(res.getStudentYear().getId().getYear() + " ");
+                if ((res.getScore() != null && res.getScore() != 0.0)
+                        && (res.getDateObtened() == null || res.getDateObtened().equals(""))) {
+                    ModelAndView mav = new ModelAndView(
+                            "redirect:/admin/showExamResults?codeExam=" + exam);
+                    mav.addObject("ErrorMessage", "Les dates doivent être fournies");
+                    return mav;
+                }
 
             rRepository.save(re.getExamResults());
+            
             resService.updateStatus(re.getExamResults().get(0).getExam());
             resService.computeAvg(re.getExamResults().get(0).getExam());
 
@@ -150,7 +157,7 @@ public class ResultController {
     public ModelAndView changeCurrentYear(
             @RequestParam(value = "year", required = false) Integer year,
             @ModelAttribute(value = "results") Results examResults) {
-        
+
         if (year != null)
             try {
                 yearRepository.updateYear(year);

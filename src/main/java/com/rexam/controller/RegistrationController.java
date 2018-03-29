@@ -23,7 +23,6 @@ public class RegistrationController {
 		try {
 			registrationService.registration(authentificationFacade.getAuthentication().getName(), codeTU);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			red.addFlashAttribute("alert", "danger");
 			red.addFlashAttribute("msg", e.getMessage());
 			e.printStackTrace();
