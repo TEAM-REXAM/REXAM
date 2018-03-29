@@ -102,7 +102,7 @@ public class StudentController {
 	}
 
 	@RequestMapping("/showExams")
-	public ModelAndView showExams(@RequestParam(value = "code", required = false) String codeTU,
+	public ModelAndView showExams(@RequestParam(value = "code", required = true) String codeTU,
 			HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
 		String role = "student";
