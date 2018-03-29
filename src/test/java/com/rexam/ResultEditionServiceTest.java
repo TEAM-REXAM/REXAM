@@ -76,6 +76,7 @@ public class ResultEditionServiceTest {
     
     @Test
     public void oneRegTest() throws Exception {
+        
         regService.registration("srowlands0@vimeo.com", "ENSPHCU89");
 
         List<Result> results = new ArrayList<Result>();
@@ -108,13 +109,13 @@ public class ResultEditionServiceTest {
         }
         
         results.clear();
-        results.addAll(rRepository.findByExam(exRepository.findOne("2989")));
+        results.addAll(rRepository.findByExam(exRepository.findOne("94")));
         results.get(0).setScore(15.0);
         results.get(0).setDateObtened(LocalDate.now().toString());
 
         rRepository.save(results);
-        resService.computeAvg(exRepository.findOne("2989"));
-        resService.updateStatus(exRepository.findOne("2989"));
+        resService.computeAvg(exRepository.findOne("94"));
+        resService.updateStatus(exRepository.findOne("94"));
         
         for(Registration reg: regRepo.findAll()){
             System.out.println("\n++++++++++ "+reg.getAverageScore()+"\n");
