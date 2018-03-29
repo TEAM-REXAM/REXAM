@@ -75,7 +75,7 @@
 												</c:choose></td>
 
 											<td><a class="btn btn-info"
-												href="/rexam/results/${res.teachingUnit.code}"> Détail
+												href="/rexam/results/${res.teachingUnit.code}?year=${year=res.studentYear.id.year}"> Détail
 													des notes </a></td>
 
 											<td><c:out value="${res.teachingUnit.creditValue}" /></td>

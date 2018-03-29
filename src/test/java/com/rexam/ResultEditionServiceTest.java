@@ -1,6 +1,7 @@
 package com.rexam;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -22,7 +23,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.rexam.dao.ExamRepository;
+import com.rexam.dao.RegistrationRepository;
 import com.rexam.dao.ResultRepository;
+import com.rexam.model.Registration;
 import com.rexam.model.Result;
 import com.rexam.service.RegistrationService;
 import com.rexam.service.ResultEditionService;
@@ -44,6 +47,9 @@ public class ResultEditionServiceTest {
     
     @Autowired
     ExamRepository exRepository;
+    
+    @Autowired
+    RegistrationRepository regRepo;
     
     @Autowired
     ResultEditionService resService;
@@ -82,6 +88,11 @@ public class ResultEditionServiceTest {
         resService.computeAvg(exRepository.findOne("989"));
         resService.updateStatus(exRepository.findOne("989"));
         
+        for(Registration reg: regRepo.findAll()){
+            System.out.println("\n++++++++++ "+reg.getAverageScore()+"\n");
+            assertEquals(reg.getStatus(),"Partiellement calculable");
+        }
+        
         results.clear();
         results.addAll(rRepository.findByExam(exRepository.findOne("1989")));
         results.get(0).setScore(15.0);
@@ -91,6 +102,11 @@ public class ResultEditionServiceTest {
         resService.computeAvg(exRepository.findOne("1989"));
         resService.updateStatus(exRepository.findOne("1989"));
         
+        for(Registration reg: regRepo.findAll()){
+            System.out.println("\n++++++++++ "+reg.getAverageScore()+"\n");
+            assertEquals(reg.getStatus(),"Partiellement calculable");
+        }
+        
         results.clear();
         results.addAll(rRepository.findByExam(exRepository.findOne("2989")));
         results.get(0).setScore(15.0);
@@ -99,6 +115,11 @@ public class ResultEditionServiceTest {
         rRepository.save(results);
         resService.computeAvg(exRepository.findOne("2989"));
         resService.updateStatus(exRepository.findOne("2989"));
+        
+        for(Registration reg: regRepo.findAll()){
+            System.out.println("\n++++++++++ "+reg.getAverageScore()+"\n");
+            assertEquals(reg.getStatus(),"Complétement calculable");
+        }
         
     }
 }

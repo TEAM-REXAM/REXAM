@@ -32,8 +32,22 @@ public class ResultEditionService {
         for (Component c : cRepository.findByExam(exam)) {
             for (TeachingUnit tu : tuRepository.findByComponent(c.getId())) {
                 for (Registration reg : regRepository.findByIdCodeTeachingUnit(tu.getCode())) {
-                    rRepository.computeAvg(tu.getCode(), reg.getStudentYear().getId().getId(),
-                            reg.getStudentYear().getId().getYear());
+                    double avg = 0.0;
+                    double weightSum = 0.0;
+                    for (Component comp : reg.getTeachingUnit().getComponents()) {
+                        avg += comp.getWeight()
+                                * (rRepository.findByExamAndStudentYear(comp.getExam(),
+                                        reg.getStudentYear())).getScore();
+                        weightSum += comp.getWeight();
+                    }
+
+                    // rRepository.computeAvg(tu.getCode(),
+                    // reg.getStudentYear().getId().getId(),
+                    // reg.getStudentYear().getId().getYear());
+                    if (weightSum > 0.0) {
+                        reg.setAverageScore(avg / weightSum);
+                        regRepository.save(reg);
+                    }
                 }
             }
         }
@@ -50,17 +64,19 @@ public class ResultEditionService {
                                 reg.getStudentYear());
 
                         if (res.getDateObtened() == null || res.getDateObtened().equals("")) {
-                            rRepository.setStatus(tu.getCode(),
-                                    reg.getStudentYear().getId().getId(),
-                                    reg.getStudentYear().getId().getYear(),
-                                    "Partiellement calculable");
+                            reg.setStatus("Partiellement calculable");
+                            regRepository.save(reg);
+                            // rRepository.setStatus(tu, reg.getStudentYear(),
+                            // "Partiellement calculable");
                             flag = false;
                             break;
                         }
                     }
                     if (flag) {
-                        rRepository.setStatus(tu.getCode(), reg.getStudentYear().getId().getId(),
-                                reg.getStudentYear().getId().getYear(), "Entièrement calculable");
+                        reg.setStatus("Complétement calculable");
+                        regRepository.save(reg);
+                        // rRepository.setStatus(tu, reg.getStudentYear(),
+                        // "Entièrement calculable");
                     }
                 }
             }

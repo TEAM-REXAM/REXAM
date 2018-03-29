@@ -158,9 +158,11 @@ public class StudentController {
 	}
 
 	@RequestMapping("/results/{codeTU}")
-	public ModelAndView detailResults(@PathVariable(value = "codeTU") String codeTU) {
+	public ModelAndView detailResults(@RequestParam(value = "year", required = true) Integer year,
+	        @PathVariable(value = "codeTU") String codeTU) {
+	    
 		TeachingUnit tu = tuRepository.findOne(codeTU);
-		StudentYear student = studYearRepository.findById_YearAndStudent(currentYear(), student());
+		StudentYear student = studYearRepository.findById_YearAndStudent(year, student());
 
 		List<DetailResultService> detailRes = new ArrayList<DetailResultService>();
 		DetailResultService tmpLine;

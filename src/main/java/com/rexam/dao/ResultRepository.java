@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rexam.model.Exam;
 import com.rexam.model.IdResult;
 import com.rexam.model.Result;
+import com.rexam.model.Student;
 import com.rexam.model.StudentYear;
+import com.rexam.model.TeachingUnit;
 
 public interface ResultRepository extends CrudRepository<Result, IdResult> {
 
@@ -31,9 +33,11 @@ public interface ResultRepository extends CrudRepository<Result, IdResult> {
     @Transactional
     @Modifying
     @Query(value="update Registration set status"
-            + "=?4 where teaching_unit_code=?1 and student_year_id = ?2 and student_year_year = ?3",nativeQuery = true)
-    public void setStatus(String tu_code, Integer sy_id, Integer sy_y, String status);
+            + "=?3 where teachingUnit=?1 and studentYear = ?2")
+    public void setStatus(TeachingUnit tu, StudentYear sy, String status);
 
+    @Query(value="select res from Result res where res.exam = ?1 and res.studentYear.student=?2")
+    public Result findByExamAndStudent(Exam exam, Student student);
     
     public Result findByExamAndStudentYear(Exam exam, StudentYear studentYear);
     
