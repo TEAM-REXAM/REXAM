@@ -7,4 +7,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "email")
 public class Admin extends User {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -625767430528307665L;
+
 }
