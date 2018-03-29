@@ -29,27 +29,6 @@
 				</h2>
 			</div>
 
-			<div class="avg_details">
-				<table class="table">
-					<tr>
-						<td>
-							<strong>Moyenne :</strong>
-							
-							<c:if test="${empty reg.averageScore}">
-								<c:out value="Pas encore déterminée" />
-							</c:if> 
-							<c:if test="${not empty reg.averageScore}">
-								<c:out value="${reg.averageScore}" />
-							</c:if></td>
-
-						<td>
-							<strong>Status :</strong>
-							<c:out value="${reg.status}" />
-						</td>
-					</tr>
-				</table>
-			</div>
-
 			<div class="exam_details">
 
 				<table id="exam_table" class="unitsTable table table-hover">

@@ -34,7 +34,7 @@
 	</nav>
 	<div class="container">
 			<form method="POST" action="${contextPath}/login" class="form-signin" style ="max-width:330px;margin: 0 auto;">
-				<h2 class="form-signin-heading">Login</h2>
+				<h2 class="form-signin-heading">Connexion</h2>
 
 				<div class="form-group ${error != null ? 'has-error' : ''}">
 					<span>${message}</span> <input name="username" type="text"
@@ -44,7 +44,7 @@
 						type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 					<button class="btn btn-lg btn-primary btn-block btn-signin"
-						type="submit">Log In</button>
+						type="submit">Se connecter</button>
 				</div>
 
 			</form>

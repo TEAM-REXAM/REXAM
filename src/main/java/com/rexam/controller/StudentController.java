@@ -174,7 +174,6 @@ public class StudentController {
 			tmpLine.setScore(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getScore());
 			tmpLine.setWeight(compo.getWeight());
 			tmpLine.setDateObt(resultRepository.findByExamAndStudentYear(compo.getExam(), student).getDateObtened());
-
 			detailRes.add(tmpLine);
 		}
 

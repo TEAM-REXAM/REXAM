@@ -67,4 +67,9 @@ public class RegistrationTest {
 	public void registrationWrongMail() throws Exception {
 		registrationService.registration("srowlandzfzefzfzfzefs0@vimeo.com", "ENSPHCU89");
 	}
+	@Test(expected = Exception.class)
+	public void registrationAlreadyRegistered() throws Exception {
+		registrationService.registration("srowlands0@vimeo.com", "ENSPHCU89");
+		registrationService.registration("srowlands0@vimeo.com", "ENSPHCU89");
+	}
 }
