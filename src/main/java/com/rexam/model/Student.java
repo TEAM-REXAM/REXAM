@@ -12,7 +12,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "email")
 public class Student extends User {
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 5701732323048473247L;
+
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<StudentYear> studentYear;
 	
 	private int id;

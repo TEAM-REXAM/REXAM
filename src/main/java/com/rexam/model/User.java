@@ -1,5 +1,7 @@
 package com.rexam.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -9,9 +11,13 @@ import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public abstract class User implements Serializable{
 
-	@Id
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -6160287726879513368L;
+    @Id
 	@Email
 	private String email;
 	//changed Password to password

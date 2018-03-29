@@ -1,5 +1,6 @@
 package com.rexam.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,9 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Exam {
+public class Exam implements Serializable{
 	
-	@Id
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 4241590468266211624L;
+
+    @Id
 	private String code;
 	
 	private String typeExam;

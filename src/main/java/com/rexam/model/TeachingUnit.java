@@ -1,5 +1,6 @@
 package com.rexam.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,7 +12,12 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 
 @Entity
-public class TeachingUnit {
+public class TeachingUnit implements Serializable{
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7175447304033109880L;
 
     @Id
     private String code;

@@ -1,5 +1,7 @@
 package com.rexam.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,9 +11,13 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Entity
-public class Registration {
+public class Registration implements Serializable{
 
-	@EmbeddedId
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -2539383934998555433L;
+    @EmbeddedId
 	private IdRegistration id;
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@MapsId("codeTeachingUnit")

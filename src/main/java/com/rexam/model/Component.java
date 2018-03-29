@@ -1,5 +1,7 @@
 package com.rexam.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +12,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Component {
+public class Component implements Serializable{
 	
-	@Id
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 7003966455711016986L;
+
+    @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
     
