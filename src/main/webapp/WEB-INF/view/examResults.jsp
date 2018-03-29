@@ -44,7 +44,7 @@
 							<tr>
 								<td><c:out value="${res.studentYear.student.firstname}" /></td>
 								<td><c:out value="${res.studentYear.student.lastname}" /></td>
-								<td><form:input path="examResults[${resStat.index}].score" type="number" min="0" max="20"/></td>
+								<td><form:input path="examResults[${resStat.index}].score" type="number" min="0" max="20" step="0.25"/></td>
 								<td><form:input path="examResults[${resStat.index}].dateObtened" type ="date"/></td>
 							</tr>
 						</c:forEach>
