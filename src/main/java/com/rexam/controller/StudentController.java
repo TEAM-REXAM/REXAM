@@ -75,8 +75,7 @@ public class StudentController {
 
 		for (int i = 0; i < regs.size(); i++) {
 			for (int j = 0; j < tuList.size(); j++) {
-				if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())
-						&& regs.get(i).getAverageScore() == null) {
+				if (regs.get(i).getTeachingUnit().getCode().equals(tuList.get(j).getCode())) {
 					tuList.remove(j);
 					--j;
 				}
