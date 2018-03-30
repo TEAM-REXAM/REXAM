@@ -15,7 +15,7 @@ public class AuthentificationFacadeImpl implements AuthentificationFacade {
     }
 	
 	public User getAuthUser() {
-		return (User) getAuthentication().getPrincipal();
+	 	return (User) getAuthentication().getPrincipal();
 	}
 
 }
